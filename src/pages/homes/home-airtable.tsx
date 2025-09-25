@@ -18,7 +18,6 @@ import CounterOne from "@/components/counter/counter-one";
 import ServiceFour from "@/components/service/service-four";
 import InstagramArea from "@/components/instagram/instagram-area";
 import ContactOne from "@/components/contact/contact-one";
-import FooterFour from "@/layouts/footers/footer-four";
 import { textInvert } from "@/utils/text-invert";
 import { fadeAnimation, revelAnimationOne } from "@/utils/title-animation";
 import { projectThreeAnimation } from "@/utils/project-anim";
@@ -96,9 +95,6 @@ const HomeAirtableMain = () => {
 
           </main>
 
-          {/* footer area */}
-          <FooterFour />
-          {/* footer area */}
         </div>
       </div>
     </Wrapper>
