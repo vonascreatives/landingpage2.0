@@ -8,7 +8,6 @@ import { useGSAP } from "@gsap/react";
 import Wrapper from "../layouts/wrapper";
 import HeaderFive from "../layouts/headers/header-five";
 import SliceZone from "../components/SliceZone";
-import GalleryOne from "../components/gallery/gallery-one";
 import AboutThree from "../components/about/about-three";
 import BrandThree from "../components/brand/brand-three";
 import ProjectFour from "../components/project/project-four";
@@ -79,9 +78,6 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
             )}
             {/* Prismic hero area end */}
 
-            {/* gallery area start */}
-            <GalleryOne />
-            {/* gallery area end */}
 
             {/* about area start */}
             <AboutThree />
