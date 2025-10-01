@@ -79,10 +79,6 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
             {/* Prismic hero area end */}
 
 
-            {/* about area start */}
-            <AboutThree />
-            {/* about area end */}
-
             {/* brand area start */}
             <BrandThree />
             {/* brand area end */}
