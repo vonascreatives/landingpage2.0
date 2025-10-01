@@ -1,6 +1,7 @@
 import { AllSlices } from "../../prismicio";
 import HeroBanner from "../../slices/HeroBanner";
 import Gallery from "../../slices/Gallery";
+import About from "../../slices/About";
 
 interface SliceZoneProps {
   slices: AllSlices[];
@@ -15,6 +16,8 @@ export default function SliceZone({ slices }: SliceZoneProps) {
             return <HeroBanner key={index} slice={slice} />;
           case "gallery": 
             return <Gallery key={index} slice={slice} />;
+          case "about":
+            return <About key={index} slice={slice} />;
           default:
             const unknownSlice = slice as { slice_type: string };
             console.warn(`Unknown slice type: ${unknownSlice.slice_type}`);
