@@ -74,7 +74,7 @@ export default function Gallery({ slice }: GalleryProps) {
                 <div className="swiper-container tp-gallery-slider-active">
                   <Marquee 
                     className="tp-gallery-titming" 
-                    speed={50} 
+                    speed={70} 
                     direction='left'
                     pauseOnHover={true}
                     gradient={false}
@@ -89,11 +89,12 @@ export default function Gallery({ slice }: GalleryProps) {
                           src={item.image.url || ''}
                           alt={item.caption || item.image.alt || `Gallery image ${index + 1}`}
                           style={{ 
-                            width: 'auto', 
-                            height: '700px',
+                            width: '500px', 
+                            height: '900px',
                             display: 'block',
                             border: 'none',
-                            outline: 'none'
+                            outline: 'none',
+                            objectFit: 'cover'
                           }}
                         />
                       </div>
