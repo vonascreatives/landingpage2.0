@@ -85,12 +85,16 @@ export default function Gallery({ slice }: GalleryProps) {
                         className="tp-gallery-item" 
                         style={{ marginRight: '30px', display: 'inline-block' }}
                       >
-                        <Image
+                        <img
                           src={item.image.url || ''}
                           alt={item.caption || item.image.alt || `Gallery image ${index + 1}`}
-                          width={item.image.dimensions?.width || 300}
-                          height={item.image.dimensions?.height || 500}
-                          style={{ height: 'auto' }}
+                          style={{ 
+                            width: 'auto', 
+                            height: '700px',
+                            display: 'block',
+                            border: 'none',
+                            outline: 'none'
+                          }}
                         />
                       </div>
                     ))}
