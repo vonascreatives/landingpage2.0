@@ -16,10 +16,10 @@ export default function HeaderFive() {
             <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6">
               <div className="tp-header-logo">
                 <Link className="logo-1" href="/">
-                  <Image src={logo} alt="logo" />
+                  <Image src={logo} alt="logo" priority />
                 </Link>
                 <Link className="logo-2" href="/">
-                  <Image src={logo_2} alt="logo" />
+                  <Image src={logo_2} alt="logo" priority />
                 </Link>
               </div>
             </div>

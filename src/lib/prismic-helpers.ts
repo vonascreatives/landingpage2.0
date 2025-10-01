@@ -1,0 +1,86 @@
+import { createClient, AllSlices } from "../../prismicio";
+import { notFound } from "next/navigation";
+import * as prismic from "@prismicio/client";
+
+// Define the page document structure
+export interface PageDocumentData {
+  slices: AllSlices[];
+  [key: string]: any;
+}
+
+export type PageDocument = prismic.PrismicDocumentWithUID<PageDocumentData, "page">;
+export type HomepageDocument = prismic.PrismicDocumentWithoutUID<PageDocumentData, "homepage">;
+
+/**
+ * Fetches homepage data with slices from Prismic
+ */
+export async function getHomepageData(): Promise<HomepageDocument | null> {
+  const client = createClient();
+  
+  try {
+    const homepage = await client.getSingle("homepage");
+    return homepage as HomepageDocument;
+  } catch (error) {
+    console.warn("Homepage not found in Prismic:", error);
+    return null;
+  }
+}
+
+/**
+ * Fetches page data by UID with slices from Prismic
+ */
+export async function getPageData(uid: string): Promise<PageDocument | null> {
+  const client = createClient();
+  
+  try {
+    const page = await client.getByUID("page", uid);
+    return page as PageDocument;
+  } catch (error) {
+    console.warn(`Page with UID "${uid}" not found in Prismic:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetches homepage data with error handling for pages
+ */
+export async function getHomepageDataOrNotFound(): Promise<HomepageDocument> {
+  const client = createClient();
+  
+  try {
+    const homepage = await client.getSingle("homepage");
+    return homepage as HomepageDocument;
+  } catch (error) {
+    console.error("Homepage not found:", error);
+    notFound();
+  }
+}
+
+/**
+ * Fetches page data by UID with error handling
+ */
+export async function getPageDataOrNotFound(uid: string): Promise<PageDocument> {
+  const client = createClient();
+  
+  try {
+    const page = await client.getByUID("page", uid);
+    return page as PageDocument;
+  } catch (error) {
+    console.error(`Page with UID "${uid}" not found:`, error);
+    notFound();
+  }
+}
+
+
+export async function getHeroBannerData() {
+  const homepage = await getHomepageData();
+  
+  if (!homepage?.data.slices) return null;
+  
+  // Find the hero banner slice
+  const heroBannerSlice = homepage.data.slices.find(
+    slice => slice.slice_type === "hero_section"
+  );
+  
+  return heroBannerSlice?.primary || null;
+}
