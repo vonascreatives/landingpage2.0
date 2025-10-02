@@ -3,11 +3,12 @@ import * as prismicNext from "@prismicio/next";
 import { HeroBannerSlice } from "./slices/HeroBanner/model";
 import { GallerySlice } from "./slices/Gallery/model"; 
 import { AboutSlice } from "./slices/About/model"; 
+import { ProjectFourSlice } from "./slices/ProjectFour/model";
 
 export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "liko-landing";
 
 // Define all your slices here
-export type AllSlices = HeroBannerSlice | GallerySlice | AboutSlice;
+export type AllSlices = HeroBannerSlice | GallerySlice | AboutSlice | ProjectFourSlice;
 
 
 const routes: prismic.ClientConfig["routes"] = [

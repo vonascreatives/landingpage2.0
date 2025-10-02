@@ -58,34 +58,52 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            {/* Prismic hero area start */}
+            {/* Prismic content slices start */}
             {homepageData?.data?.slices ? (
-              <SliceZone slices={homepageData.data.slices} />
+              <>
+                {/* Render hero and other slices */}
+                {homepageData.data.slices.map((slice: any, index: number) => {
+                  // Render hero and other slices normally
+                  if (slice.slice_type !== 'project_four') {
+                    return <SliceZone key={index} slices={[slice]} />;
+                  }
+                  return null;
+                })}
+                
+                {/* brand area start */}
+                <BrandThree />
+                {/* brand area end */}
+                
+                {/* Render ProjectFour slice after BrandThree */}
+                {homepageData.data.slices
+                  .filter((slice: any) => slice.slice_type === 'project_four')
+                  .map((slice: any, index: number) => (
+                    <SliceZone key={`project-${index}`} slices={[slice]} />
+                  ))
+                }
+              </>
             ) : (
-              <div className="tp-hero-3-area tp-hero-3-ptb fix">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-xl-12">
-                      <div className="tp-hero-3-content-box text-center p-relative">
-                        <div className="tp-hero-3-title">
-                          <span>Loading hero content...</span>
+              <>
+                <div className="tp-hero-3-area tp-hero-3-ptb fix">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-xl-12">
+                        <div className="tp-hero-3-content-box text-center p-relative">
+                          <div className="tp-hero-3-title">
+                            <span>Loading hero content...</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                
+                {/* brand area start */}
+                <BrandThree />
+                {/* brand area end */}
+              </>
             )}
-            {/* Prismic hero area end */}
-
-
-            {/* brand area start */}
-            <BrandThree />
-            {/* brand area end */}
-
-            {/* project area start */}
-            <ProjectFour />
-            {/* project area end */}
+            {/* Prismic content slices end */}
 
             {/* counter area start */}
             <CounterOne />
