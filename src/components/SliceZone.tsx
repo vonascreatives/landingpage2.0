@@ -5,6 +5,8 @@ import About from "../../slices/About";
 import ProjectFourSlice from '../../slices/ProjectFour';
 import CounterOneSlice from '../../slices/CounterOne';
 import ServiceFourSlice from '../../slices/ServiceFour';
+import InstagramAreaSlice from '../../slices/InstagramArea';
+import ContactOneSlice from '../../slices/ContactOne';
 
 
 interface SliceZoneProps {
@@ -28,6 +30,10 @@ export default function SliceZone({ slices }: SliceZoneProps) {
             return <CounterOneSlice key={index} slice={slice} />;
           case "service_four":
             return <ServiceFourSlice key={index} slice={slice} />;
+          case "instagram_area":
+            return <InstagramAreaSlice key={index} slice={slice} />;
+          case "contact_one":
+            return <ContactOneSlice key={index} slice={slice} />;
           default:
             const unknownSlice = slice as { slice_type: string };
             console.warn(`Unknown slice type: ${unknownSlice.slice_type}`);

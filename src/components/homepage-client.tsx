@@ -61,12 +61,14 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
             {/* Prismic content slices start */}
             {homepageData?.data?.slices ? (
               <>
-                {/* Render hero and other slices (excluding counter_one, service_four, and project_four) */}
+                {/* Render hero and other slices (excluding counter_one, service_four, project_four, instagram_area, and contact_one) */}
                 {homepageData.data.slices.map((slice: any, index: number) => {
-                  // Only render hero, gallery, about and other slices, but NOT counter_one, service_four, or project_four
+                  // Only render hero, gallery, about and other slices, but NOT counter_one, service_four, project_four, instagram_area, or contact_one
                   if (slice.slice_type !== 'project_four' && 
                       slice.slice_type !== 'counter_one' && 
-                      slice.slice_type !== 'service_four') {
+                      slice.slice_type !== 'service_four' &&
+                      slice.slice_type !== 'instagram_area' &&
+                      slice.slice_type !== 'contact_one') {
                     return <SliceZone key={index} slices={[slice]} />;
                   }
                   return null;
@@ -107,7 +109,7 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
             )}
             {/* Prismic content slices end */}
 
-            {/* Render CounterOne and ServiceFour slices after ProjectFour */}
+            {/* Render CounterOne, ServiceFour, InstagramArea, and ContactOne slices after ProjectFour */}
             {homepageData?.data?.slices && (
               <>
                 {homepageData.data.slices
@@ -122,16 +124,39 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
                     <SliceZone key={`service-${index}`} slices={[slice]} />
                   ))
                 }
+                {homepageData.data.slices
+                  .filter((slice: any) => slice.slice_type === 'instagram_area')
+                  .map((slice: any, index: number) => (
+                    <SliceZone key={`instagram-${index}`} slices={[slice]} />
+                  ))
+                }
+                {homepageData.data.slices
+                  .filter((slice: any) => slice.slice_type === 'contact_one')
+                  .map((slice: any, index: number) => (
+                    <SliceZone key={`contact-${index}`} slices={[slice]} />
+                  ))
+                }
               </>
             )}
 
-            {/* instagram area start */}
-            <InstagramArea />
-            {/* instagram area end */}
+            {/* Static fallbacks if no Prismic slices configured */}
+            {(!homepageData?.data?.slices || 
+              !homepageData.data.slices.some((slice: any) => slice.slice_type === 'instagram_area')) && (
+              <>
+                {/* instagram area start */}
+                <InstagramArea />
+                {/* instagram area end */}
+              </>
+            )}
 
-            {/* contact area start */}
-            <ContactOne />
-            {/* contact area end */}
+            {(!homepageData?.data?.slices || 
+              !homepageData.data.slices.some((slice: any) => slice.slice_type === 'contact_one')) && (
+              <>
+                {/* contact area start */}
+                <ContactOne />
+                {/* contact area end */}
+              </>
+            )}
           </main>
         </div>
       </div>
