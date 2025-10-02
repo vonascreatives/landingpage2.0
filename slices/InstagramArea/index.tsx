@@ -1,10 +1,10 @@
 'use client';
 import React from "react";
 import Image from "next/image";
+import * as prismic from "@prismicio/client";
 import { InstagramAreaSlice } from "./model";
 import { Leaf } from "../../src/components/svg";
 
-// Instagram images
 import inst_1 from "@/assets/img/home-02/instagram/insta-inner-1.jpg";
 import inst_2 from "@/assets/img/home-02/instagram/insta-inner-2.jpg";
 import inst_3 from "@/assets/img/home-02/instagram/insta-inner-3.jpg";
@@ -17,17 +17,51 @@ export interface InstagramAreaProps {
   slice: InstagramAreaSlice;
 }
 
+function getLinkUrl(link: any): string {
+  if (!link) return '#';
+  
+  if (prismic.isFilled.link(link)) {
+    if (link.link_type === 'Web') {
+      return (link as any).url || '#';
+    } else if (link.link_type === 'Document') {
+      return `/${(link as any).uid}` || '#';
+    }
+  }
+  
+  return '#';
+}
+
 export default function InstagramArea({ slice }: InstagramAreaProps) {
-  // Static content - no Prismic mapping
-  const instagram_images = [
-    { id: 1, img: inst_1 },
-    { id: 2, img: inst_2 },
-    { id: 3, img: inst_3 },
-    { id: 4, img: inst_4 },
-    { id: 5, img: inst_5 },
-    { id: 6, img: inst_6 },
-    { id: 7, img: inst_7 },
+  const instagramUsername = slice.primary?.instagram_username || "@likoagency";
+  const instagramLink = getLinkUrl(slice.primary?.instagram_link) || "#";
+  const sectionTitle = slice.primary?.section_title || "INSTAGRAM";
+  const buttonText = slice.primary?.button_text || "Follow Us";
+  const centerImage = slice.primary?.center_instagram_image;
+  const customImages = slice.primary?.custom_instagram_images || [];
+  
+  const description = slice.primary?.description 
+    ? (typeof slice.primary.description === 'string' 
+        ? slice.primary.description 
+        : prismic.asText(slice.primary.description))
+    : "Become a part of our stories! Join the adventure.";
+
+  const defaultImages = [
+    { id: 1, img: inst_1, isCustom: false },
+    { id: 2, img: inst_2, isCustom: false },
+    { id: 3, img: inst_3, isCustom: false },
+    { id: 4, img: inst_4, isCustom: false },
+    { id: 5, img: inst_5, isCustom: false },
+    { id: 6, img: inst_6, isCustom: false },
+    { id: 7, img: inst_7, isCustom: false },
   ];
+
+  const instagram_images = customImages.length > 0 
+    ? customImages.slice(0, 7).map((item: any, index: number) => ({
+        id: index + 1,
+        img: item.instagram_image,
+        isCustom: true
+      }))
+    : defaultImages;
 
   return (
     <div className="tp-instagram-area tp-instagram-ptb text-center">
@@ -37,29 +71,45 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
             key={item.id}
             className={`tp-instagram-thumb-inner-${item.id} d-none d-xl-block`}
           >
-            <Image src={item.img} alt="inst-img" />
+            {item.isCustom && prismic.isFilled.image(item.img) ? (
+              <Image 
+                src={item.img.url} 
+                alt="inst-img"
+                width={200}
+                height={200}
+              />
+            ) : (
+              <Image src={item.img} alt="inst-img" />
+            )}
           </div>
         ))}
         <div className="tp-instagram-thumb-inner-8 d-none d-xl-block">
-          <a href="#">
+          <a href={instagramLink}>
             <i className="fa-brands fa-instagram"></i>
           </a>
         </div>
         <div className="tp-instagram-thumb">
-          <img src="/assets/img/home-02/instagram/insta-1.jpg" alt="inst-img"/>
+          {centerImage && prismic.isFilled.image(centerImage) ? (
+            <img 
+              src={centerImage.url} 
+              alt="inst-img"
+            />
+          ) : (
+            <img src="/assets/img/home-02/instagram/insta-1.jpg" alt="inst-img"/>
+          )}
         </div>
         
         <div className="tp-instagram-content-wrap text-start">
           <div className="tp-instagram-title-box">
-            <span className="tp-instagram-subtitle">INSTAGRAM</span>
-            <h4 className="tp-instagram-title">@likoagency</h4>
+            <span className="tp-instagram-subtitle">{sectionTitle}</span>
+            <h4 className="tp-instagram-title">{instagramUsername}</h4>
           </div>
           <div className="tp-instagram-content">
             <p>
-              Become a part of our stories! <br /> Join the adventure.
+              {description}
             </p>
-            <a className="tp-btn-white background-black" href="#">
-              Follow Us
+            <a className="tp-btn-white background-black" href={instagramLink}>
+              {buttonText}
               <span>
                 <Leaf />
               </span>
