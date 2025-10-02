@@ -6,6 +6,8 @@ import { AboutSlice } from "./slices/About/model";
 import { ProjectFourSlice } from "./slices/ProjectFour/model";
 import { CounterOneSlice } from "./slices/CounterOne/model";
 import { ServiceFourSlice } from "./slices/ServiceFour/model";
+import { InstagramAreaSlice } from "./slices/InstagramArea/model";
+import { ContactOneSlice } from "./slices/ContactOne/model";
 
 export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "liko-landing";
 
@@ -16,7 +18,9 @@ export type AllSlices =
   | AboutSlice 
   | ProjectFourSlice 
   | CounterOneSlice 
-  | ServiceFourSlice;
+  | ServiceFourSlice
+  | InstagramAreaSlice
+  | ContactOneSlice;
 
 
 const routes: prismic.ClientConfig["routes"] = [
