@@ -61,10 +61,12 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
             {/* Prismic content slices start */}
             {homepageData?.data?.slices ? (
               <>
-                {/* Render hero and other slices */}
+                {/* Render hero and other slices (excluding counter_one, service_four, and project_four) */}
                 {homepageData.data.slices.map((slice: any, index: number) => {
-                  // Render hero and other slices normally
-                  if (slice.slice_type !== 'project_four') {
+                  // Only render hero, gallery, about and other slices, but NOT counter_one, service_four, or project_four
+                  if (slice.slice_type !== 'project_four' && 
+                      slice.slice_type !== 'counter_one' && 
+                      slice.slice_type !== 'service_four') {
                     return <SliceZone key={index} slices={[slice]} />;
                   }
                   return null;
@@ -105,13 +107,23 @@ export default function HomepageClient({ homepageData }: HomepageClientProps) {
             )}
             {/* Prismic content slices end */}
 
-            {/* counter area start */}
-            <CounterOne />
-            {/* counter area end */}
-
-            {/* service area start */}
-            <ServiceFour />
-            {/* service area end */}
+            {/* Render CounterOne and ServiceFour slices after ProjectFour */}
+            {homepageData?.data?.slices && (
+              <>
+                {homepageData.data.slices
+                  .filter((slice: any) => slice.slice_type === 'counter_one')
+                  .map((slice: any, index: number) => (
+                    <SliceZone key={`counter-${index}`} slices={[slice]} />
+                  ))
+                }
+                {homepageData.data.slices
+                  .filter((slice: any) => slice.slice_type === 'service_four')
+                  .map((slice: any, index: number) => (
+                    <SliceZone key={`service-${index}`} slices={[slice]} />
+                  ))
+                }
+              </>
+            )}
 
             {/* instagram area start */}
             <InstagramArea />

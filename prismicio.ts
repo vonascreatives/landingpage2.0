@@ -4,11 +4,19 @@ import { HeroBannerSlice } from "./slices/HeroBanner/model";
 import { GallerySlice } from "./slices/Gallery/model"; 
 import { AboutSlice } from "./slices/About/model"; 
 import { ProjectFourSlice } from "./slices/ProjectFour/model";
+import { CounterOneSlice } from "./slices/CounterOne/model";
+import { ServiceFourSlice } from "./slices/ServiceFour/model";
 
 export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "liko-landing";
 
 // Define all your slices here
-export type AllSlices = HeroBannerSlice | GallerySlice | AboutSlice | ProjectFourSlice;
+export type AllSlices = 
+  | HeroBannerSlice 
+  | GallerySlice 
+  | AboutSlice 
+  | ProjectFourSlice 
+  | CounterOneSlice 
+  | ServiceFourSlice;
 
 
 const routes: prismic.ClientConfig["routes"] = [
