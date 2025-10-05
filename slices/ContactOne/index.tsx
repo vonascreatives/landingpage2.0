@@ -52,15 +52,8 @@ export default function ContactOne({ slice }: ContactOneProps) {
   const contactLink = getLinkUrl(slice.primary?.contact_link);
   const buttonTextLine1 = slice.primary?.button_text_line_1 || "Get";
   const buttonTextLine2 = slice.primary?.button_text_line_2 || "In Touch";
-  const sectionSpacing = slice.primary?.section_spacing || "default";
   const backgroundColor = slice.primary?.background_color || "black";
-  const showDefaultIcon = slice.primary?.show_default_icon !== false; 
-
-  const spacingClass = {
-    default: 'pt-120 pb-120',
-    large: 'pt-160 pb-160',
-    compact: 'pt-80 pb-80'
-  }[sectionSpacing];
+  const showDefaultIcon = slice.primary?.show_default_icon !== false;
 
   const backgroundClass = {
     black: 'black-bg',
@@ -70,7 +63,7 @@ export default function ContactOne({ slice }: ContactOneProps) {
 
   return (
     <div 
-      className={`tp-cta-area ${backgroundClass} ${spacingClass} z-index fix`}
+      className={`tp-cta-area ${backgroundClass} pt-120 pb-120 z-index fix`}
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
