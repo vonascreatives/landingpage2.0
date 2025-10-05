@@ -17,8 +17,6 @@ export interface ContactOneSliceDefaultPrimary {
 
   button_text_line_2?: prismic.KeyTextField;
 
-  section_spacing?: prismic.SelectField<"default" | "large" | "compact">;
-
   background_color?: prismic.SelectField<"black" | "dark" | "custom">;
 
   show_default_icon?: prismic.BooleanField;

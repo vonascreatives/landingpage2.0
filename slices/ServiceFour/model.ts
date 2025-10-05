@@ -55,6 +55,8 @@ export interface ServiceFourSliceDefaultPrimary {
 
   section_title?: prismic.RichTextField;
 
+  service_icon?: prismic.ImageField;
+
   section_spacing?: prismic.SelectField<"default" | "large" | "compact">;
 
   layout_style?: prismic.SelectField<"default" | "compact" | "expanded">;
