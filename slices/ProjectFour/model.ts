@@ -33,6 +33,8 @@ export interface ProjectFourSliceDefaultPrimary {
 
   style_variant?: prismic.SelectField<"default" | "style_2">;
 
+  project_button_text?: prismic.KeyTextField;
+
   repeatable_items?: prismic.GroupField<Simplify<ProjectFourSliceDefaultPrimaryRepetableItemsItem>>;
 }
 

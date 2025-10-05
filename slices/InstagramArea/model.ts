@@ -31,7 +31,6 @@ export interface InstagramAreaSliceDefaultPrimaryCustomInstagramImagesItem {
  
   instagram_image?: prismic.ImageField;
 
-  image_alt_text?: prismic.KeyTextField;
 }
 
 /**

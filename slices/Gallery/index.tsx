@@ -22,7 +22,6 @@ export default function Gallery({ slice }: GalleryProps) {
     .filter((item: any) => prismic.isFilled.image(item.gallery_image))
     .map((item: any) => ({
       image: item.gallery_image,
-      caption: item.image_caption || ""
     }));
 
   if (galleryImages.length === 0) {
@@ -87,7 +86,6 @@ export default function Gallery({ slice }: GalleryProps) {
                       >
                         <img
                           src={item.image.url || ''}
-                          alt={item.caption || item.image.alt || `Gallery image ${index + 1}`}
                           style={{ 
                             width: '500px', 
                             height: '900px',

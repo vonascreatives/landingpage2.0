@@ -7,7 +7,6 @@ export interface GallerySliceDefaultItem {
  
   gallery_image: prismic.ImageField;
 
-  image_caption?: prismic.KeyTextField;
 }
 
 /**
