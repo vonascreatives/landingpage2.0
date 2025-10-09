@@ -1,13 +1,47 @@
 'use client';
 import React from "react";
 import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
+import Image from "next/image";
+import { createClient } from "../../prismicio";
 
-const  ThemeSetting = () => {
+interface PrismicImage {
+  url: string;
+  alt?: string | null;
+  dimensions?: {
+    width: number;
+    height: number;
+  };
+}
+
+const ThemeSetting = () => {
   const { setTheme, theme } = useTheme();
   const [settingOpen, setSettingOpen] = React.useState(false);
+  const [prismicData, setPrismicData] = React.useState<{
+    title: string;
+    iconImage: PrismicImage | null;
+  }>({
+    title: "Theme Settings",
+    iconImage: null
+  });
 
-  console.log('theme', theme);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const client = createClient();
+        const homepage = await client.getSingle("homepage");
+        
+        setPrismicData({
+          title: homepage.data.theme_settings_title || "Theme Settings",
+          iconImage: homepage.data.theme_settings_icon || null
+        });
+        
+      } catch (error) {
+        console.error('Failed to fetch Prismic data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   function handleOpenSetting() {
     setSettingOpen(!settingOpen);
@@ -20,7 +54,7 @@ const  ThemeSetting = () => {
     >
       <div className="tp-theme-wrapper">
         <div className="tp-theme-header text-center">
-          <h4 className="tp-theme-header-title">Liko Mode Settings</h4>
+          <h4 className="tp-theme-header-title">{prismicData.title}</h4>
         </div>
 
         <div className="tp-theme-dir mb-20">
@@ -52,7 +86,17 @@ const  ThemeSetting = () => {
                 onClick={handleOpenSetting}
               >
                 <span className="tp-theme-settings-gear">
-                  <i className="fa-light fa-gear"></i>
+                  {prismicData.iconImage?.url ? (
+                    <Image 
+                      src={prismicData.iconImage.url} 
+                      alt={prismicData.iconImage.alt || "Settings icon"} 
+                      width={24}
+                      height={24}
+                      className="theme-settings-icon-img"
+                    />
+                  ) : (
+                    <i className="fa-light fa-gear"></i>
+                  )}
                 </span>
                 <span className="tp-theme-settings-close">
                   <i className="fa-regular fa-xmark"></i>
@@ -66,6 +110,4 @@ const  ThemeSetting = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(ThemeSetting), {
-  ssr: false
-})
+export default ThemeSetting;
