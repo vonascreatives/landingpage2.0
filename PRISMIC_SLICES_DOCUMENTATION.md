@@ -18,7 +18,7 @@ This document provides comprehensive documentation for all Prismic slices used i
 
 ## 🏠 Homepage Custom Type Fields
 1. [Theme Settings Title](#theme-settings-title) - Text Field
-2. [Theme Settings Icon](#theme-settings-icon) - Image Field
+2. [Theme Settings Icon](#theme-settings-icon) - Image Field (HEIGHT AND WIDTH MUST BE 500 TO MATCH SETTINGS DEFAULT ICON SIZE)
 
 ## 🔧 Prismic Slices
 1. [HeroBanner Slice](#1-herobanner-slice)
