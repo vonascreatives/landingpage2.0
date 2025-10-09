@@ -66,6 +66,13 @@
                     }
                 }
             }
+
+            & img.theme-settings-icon-img {
+                width: 24px;
+                height: 24px;
+                object-fit: contain;
+                display: inline-block;
+            }
         }
         &-close{
             display: inline-block;

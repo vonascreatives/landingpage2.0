@@ -8,8 +8,22 @@ export interface PageDocumentData {
   [key: string]: any;
 }
 
+export interface PrismicImage {
+  url: string;
+  alt?: string | null;
+  dimensions?: {
+    width: number;
+    height: number;
+  };
+}
+
+export interface HomepageDocumentData extends PageDocumentData {
+  theme_settings_title?: string;
+  theme_settings_icon?: PrismicImage;
+}
+
 export type PageDocument = prismic.PrismicDocumentWithUID<PageDocumentData, "page">;
-export type HomepageDocument = prismic.PrismicDocumentWithoutUID<PageDocumentData, "homepage">;
+export type HomepageDocument = prismic.PrismicDocumentWithoutUID<HomepageDocumentData, "homepage">;
 
 /**
  * Fetches homepage data with slices from Prismic

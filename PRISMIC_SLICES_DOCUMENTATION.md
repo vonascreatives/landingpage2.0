@@ -13,6 +13,14 @@ This document provides comprehensive documentation for all Prismic slices used i
 
 ## 📋 Table of Contents
 
+## 🎨 Theme Settings Component
+**Non-Slice Component**: [Theme Settings](#theme-settings-component)
+
+## 🏠 Homepage Custom Type Fields
+1. [Theme Settings Title](#theme-settings-title) - Text Field
+2. [Theme Settings Icon](#theme-settings-icon) - Image Field
+
+## 🔧 Prismic Slices
 1. [HeroBanner Slice](#1-herobanner-slice)
 2. [Gallery Slice](#2-gallery-slice)
 3. [About Slice](#3-about-slice)
@@ -21,6 +29,63 @@ This document provides comprehensive documentation for all Prismic slices used i
 6. [ServiceFour Slice](#6-servicefour-slice)
 7. [InstagramArea Slice](#7-instagramarea-slice)
 8. [ContactOne Slice](#8-contactone-slice)
+
+---
+
+## 🎨 Theme Settings Component
+
+### 📝 Description
+A client-side theme switcher component that allows users to toggle between light and dark modes. This component fetches its content (title and icon) directly from Prismic homepage fields and is rendered outside the slice zone.
+
+### 🔧 Implementation Details
+- **Component Type**: Non-slice, standalone component
+- **Client-Side**: Uses `'use client'` directive for theme switching
+- **Data Fetching**: Direct Prismic API calls via `useEffect`
+- **Location**: Rendered after SliceZone on homepage
+
+### 📊 Required Homepage Fields
+
+#### Theme Settings Title
+```json
+{
+  "theme_settings_title": {
+    "type": "Text",
+    "config": {
+      "label": "Theme Settings Title",
+      "placeholder": "Theme Settings"
+    }
+  }
+}
+```
+
+#### Theme Settings Icon
+```json
+{
+  "theme_settings_icon": {
+    "type": "Image",
+    "config": {
+      "label": "Theme Settings Icon",
+      "constraint": {
+        "width": 500,
+        "height": 500
+      },
+      "thumbnails": []
+    }
+  }
+}
+```
+
+### 💡 Example Content
+- **Theme Settings Title**: "Vonas Settings"
+- **Theme Settings Icon**: Upload custom icon image (500×500px recommended)
+
+### 🎨 Features
+- **Dynamic Content**: Title and icon pulled from Prismic
+- **Theme Toggle**: Light/Dark mode switching with next-themes
+- **Custom Icon**: Supports custom image upload or falls back to FontAwesome gear icon
+- **Responsive Design**: 24×24px icon display with CSS animations
+- **Accessibility**: Proper alt text and ARIA labels
+- **Animation**: Spinning gear animation via CSS
 
 ---
 
@@ -44,7 +109,7 @@ The main hero section that appears at the top of the homepage with title, subtit
       "label": "Title",
       "placeholder": "Enter hero title",
       "allowTargetBlank": true,
-      "multi": "paragraph,strong,em"
+      "multi": "paragraph,strong,em,heading1,heading2,heading3"
     }
   },
   "subtitle": {
@@ -86,13 +151,14 @@ The main hero section that appears at the top of the homepage with title, subtit
 - Customizable button text and link
 - Responsive design
 - SEO optimized
+- TypeScript interface: `HeroBannerSliceDefaultPrimary`
 
 ---
 
 ## 2. Gallery Slice
 
 ### 📝 Description
-A gallery section displaying multiple images with optional captions.
+A gallery section displaying multiple images in a responsive grid layout.
 
 ### 🔧 Slice Type
 `gallery`
@@ -108,6 +174,24 @@ A gallery section displaying multiple images with optional captions.
     "config": {
       "label": "Section Title",
       "placeholder": "Gallery"
+    }
+  },
+  "repeatable_zone": {
+    "type": "Group",
+    "config": {
+      "label": "Gallery Images",
+      "fields": {
+        "gallery_image": {
+          "type": "Image",
+          "config": {
+            "label": "Gallery Image",
+            "constraint": {
+              "width": 800,
+              "height": 600
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -126,13 +210,6 @@ A gallery section displaying multiple images with optional captions.
         "height": 600
       }
     }
-  },
-  "image_caption": {
-    "type": "Text",
-    "config": {
-      "label": "Image Caption",
-      "placeholder": "Image description"
-    }
   }
 }
 ```
@@ -140,26 +217,25 @@ A gallery section displaying multiple images with optional captions.
 ### 💡 Example Content
 
 **Primary:**
-- **Section Title**: "Our Work"
+- **Section Title**: "Our Portfolio"
 
 **Items:** (Add multiple)
-- **Gallery Image**: Upload image (800x600px recommended)
-- **Image Caption**: "Project showcase"
+- **Gallery Image**: Upload image (800×600px recommended)
 
 ### 🎨 Features
 
-- Multiple images support
-- Optional captions
+- Multiple images support via Items section
+- Additional repeatable zone in Primary
 - Responsive grid layout
-- Lightbox functionality
-- Masonry layout
+- Image optimization
+- TypeScript interface: `GallerySliceDefaultItem`
 
 ---
 
 ## 3. About Slice
 
 ### 📝 Description
-An about section with description, image, statistics, and action buttons.
+An about section with description, image, statistics, and action buttons. Features both Items section and Primary Group fields.
 
 ### 🔧 Slice Type
 `about`
@@ -229,7 +305,7 @@ An about section with description, image, statistics, and action buttons.
   "repetable_zone": {
     "type": "Group",
     "config": {
-      "label": "Statistics",
+      "label": "Statistics (Primary)",
       "fields": {
         "statistic_number": {
           "type": "Number",
@@ -258,6 +334,34 @@ An about section with description, image, statistics, and action buttons.
 }
 ```
 
+#### Items Section (Repeatable)
+
+```json
+{
+  "stat_number": {
+    "type": "Number",
+    "config": {
+      "label": "Statistic Number",
+      "placeholder": "150"
+    }
+  },
+  "stat_label": {
+    "type": "Text",
+    "config": {
+      "label": "Statistic Label",
+      "placeholder": "Happy Clients"
+    }
+  },
+  "stat_suffix": {
+    "type": "Text",
+    "config": {
+      "label": "Statistic Suffix",
+      "placeholder": "+"
+    }
+  }
+}
+```
+
 ### 💡 Example Content
 
 **Primary:**
@@ -270,18 +374,28 @@ An about section with description, image, statistics, and action buttons.
 - **Button Text**: "Learn More"
 - **Button Link**: "/about"
 
-**Statistics Group:** (Add 3-4)
+**Statistics Group (Primary):** (Add 3-4)
 - **Statistic Number**: 150
 - **Statistic Label**: "Projects Completed"
 - **Statistic Suffix**: "+"
+
+**Items Section:** (Add 3-4 statistics)
+- **Stat Number**: 150
+- **Stat Label**: "Happy Clients"
+- **Stat Suffix**: "+"
 
 ### 🎨 Features
 
 - Rich text formatting
 - Image with lazy loading
-- Animated statistics counters
+- Animated statistics counters (dual sources)
 - Multiple action buttons
 - Responsive layout
+- TypeScript interfaces: `AboutSliceDefaultPrimary`, `AboutSliceDefaultItem`
+
+### ⚠️ Important Notes
+- **Dual Statistics**: Statistics can be added via both Primary Groups and Items section
+- **Complex Schema**: This slice has the most complex field structure
 
 ---
 
@@ -555,7 +669,7 @@ An animated counter section displaying statistics with optional background image
 ## 6. ServiceFour Slice
 
 ### 📝 Description
-A services showcase section with categorized service items.
+A services showcase section with categorized service items. Features complex schema with both Items and Primary Groups.
 
 ### 🔧 Slice Type
 `service_four`
@@ -579,6 +693,16 @@ A services showcase section with categorized service items.
       "label": "Section Title",
       "placeholder": "Our Services",
       "single": "heading2"
+    }
+  },
+  "service_icon": {
+    "type": "Image",
+    "config": {
+      "label": "Service Icon (Global)",
+      "constraint": {
+        "width": 100,
+        "height": 100
+      }
     }
   },
   "section_spacing": {
@@ -607,7 +731,7 @@ A services showcase section with categorized service items.
   "service_items": {
     "type": "Group",
     "config": {
-      "label": "Service Items",
+      "label": "Service Items (Primary)",
       "fields": {
         "service_title": {
           "type": "Text",
@@ -665,16 +789,78 @@ A services showcase section with categorized service items.
 }
 ```
 
+#### Items Section (Repeatable)
+
+```json
+{
+  "service_title": {
+    "type": "Text",
+    "config": {
+      "label": "Service Title",
+      "placeholder": "Branding"
+    }
+  },
+  "service_description": {
+    "type": "StructuredText",
+    "config": {
+      "label": "Service Description",
+      "placeholder": "Build strong brand identity...",
+      "single": "paragraph"
+    }
+  },
+  "service_link": {
+    "type": "Link",
+    "config": {
+      "label": "Service Link",
+      "placeholder": "/services/branding"
+    }
+  },
+  "service_categories": {
+    "type": "Group",
+    "config": {
+      "label": "Service Categories",
+      "fields": {
+        "category_name": {
+          "type": "Text",
+          "config": {
+            "label": "Category Name",
+            "placeholder": "Visual Identity"
+          }
+        }
+      }
+    }
+  },
+  "service_button_text": {
+    "type": "Text",
+    "config": {
+      "label": "Service Button Text",
+      "placeholder": "Explore"
+    }
+  },
+  "service_icon": {
+    "type": "Image",
+    "config": {
+      "label": "Service Icon",
+      "constraint": {
+        "width": 100,
+        "height": 100
+      }
+    }
+  }
+}
+```
+
 ### 💡 Example Content
 
 **Primary:**
 - **Section Subtitle**: "What We Offer"
 - **Section Title**: "Our Services"
+- **Service Icon (Global)**: Upload default icon
 - **Section Spacing**: "default"
 - **Layout Style**: "default"
 - **Show Icons**: `true`
 
-**Service Items Group:** (Add 4-6)
+**Service Items Group (Primary):** (Add 4-6)
 - **Service Title**: "Web Design"
 - **Service Description**: "Create beautiful, responsive websites"
 - **Service Link**: "/services/web-design"
@@ -683,20 +869,32 @@ A services showcase section with categorized service items.
 - **Category 2**: "UI/UX"
 - **Category 3**: "Branding"
 
+**Items Section:** (Add 4-6 services)
+- **Service Title**: "Branding"
+- **Service Description**: "Build strong brand identity"
+- **Service Link**: "/services/branding"
+- **Service Button Text**: "Explore"
+- **Service Icon**: Upload service-specific icon
+
+**Service Categories Group (within Items):** (Add 2-4 per service)
+- **Category Name**: "Visual Identity"
+
 ### 🎨 Features
 
-- Multiple service cards
-- Flattened category structure
-- No nested Groups (Prismic limitation)
-- Flexible layout options
-- Hover animations
-- Responsive grid
+- **Dual Service Sources**: Services from both Primary Groups and Items section
+- **Individual Icons**: Each service in Items can have its own icon
+- **Nested Categories**: Items support nested Group for categories
+- **Flattened Categories**: Primary uses category_1, category_2, category_3
+- **Flexible layout options**
+- **Hover animations**
+- **Responsive grid**
 
 ### ⚠️ Important Notes
 
-- **No nested Groups**: Prismic doesn't support Groups within Groups
-- **Flattened categories**: Instead of a nested Group, uses category_1, category_2, category_3 fields
-- **No image mapping**: Services use default icons instead of custom images
+- **Complex Schema**: Most complex slice with both Primary Groups and Items Groups
+- **Nested Groups**: Items section supports nested Groups for categories
+- **Dual Icon Support**: Global icon in Primary + individual icons in Items
+- **TypeScript interfaces**: `ServiceFourSliceDefaultPrimary`, `ServiceFourSliceDefaultItem`
 
 ---
 
@@ -839,14 +1037,14 @@ An Instagram showcase section with background images, center image, and social m
 ## 8. ContactOne Slice
 
 ### 📝 Description
-A call-to-action contact section with customizable text and links.
+A call-to-action contact section with customizable text and links. Simple, text-based configuration with minimal fields.
 
 ### 🔧 Slice Type
 `contact_one`
 
 ### 📊 Schema Configuration
 
-#### Primary Fields (No Items Section, No Image Mapping)
+#### Primary Fields (No Items Section)
 
 ```json
 {
@@ -893,14 +1091,6 @@ A call-to-action contact section with customizable text and links.
       "placeholder": "In Touch"
     }
   },
-  "section_spacing": {
-    "type": "Select",
-    "config": {
-      "label": "Section Spacing",
-      "options": ["default", "large", "compact"],
-      "default_value": "default"
-    }
-  },
   "background_color": {
     "type": "Select",
     "config": {
@@ -928,41 +1118,52 @@ A call-to-action contact section with customizable text and links.
 - **Contact Link**: "/contact"
 - **Button Text Line 1**: "Start"
 - **Button Text Line 2**: "Project"
-- **Section Spacing**: "default"
 - **Background Color**: "black"
 - **Show Default Icon**: `true`
 
 ### 🎨 Features
 
-- Split headline for emphasis
-- Two-line button text
-- Customizable background colors
-- Flexible spacing options
-- Static default icon (no Prismic image mapping)
-- Responsive design
-- GSAP animations
+- **Split headline for emphasis**
+- **Two-line button text**
+- **Customizable background colors**
+- **Boolean icon toggle**
+- **Static default icon** (no Prismic image mapping)
+- **Responsive design**
+- **GSAP animations**
+- **Clean, minimal schema**
 
 ### ⚠️ Important Notes
 
 - **No image mapping**: Uses static default icon only
 - **Text-only configuration**: All visual elements configured through text
 - **Split button text**: Two separate fields for multi-line button text
+- **Simple schema**: One of the simplest slice configurations
+- **TypeScript interface**: `ContactOneSliceDefaultPrimary`
 
 ---
 
 ## 🔄 Component Rendering Order
 
-The homepage renders slices in this specific order:
+The homepage renders components in this specific order:
 
-1. **Hero Section** (Prismic)
-2. **Gallery** (Prismic)
-3. **About** (Prismic)
-4. **BrandThree** (Static Component)
-5. **ProjectFour** (Prismic)
-6. **CounterOne** (Prismic)
-7. **ServiceFour** (Prismic)
-8. **InstagramArea** (Prismic)
-9. **ContactOne** (Prismic)
+### SliceZone (Prismic-managed):
+1. **HeroBanner Slice** (`hero_section`)
+2. **Gallery Slice** (`gallery`)
+3. **About Slice** (`about`)
+4. **ProjectFour Slice** (`project_four`)
+5. **CounterOne Slice** (`counter_one`)
+6. **ServiceFour Slice** (`service_four`)
+7. **InstagramArea Slice** (`instagram_area`)
+8. **ContactOne Slice** (`contact_one`)
+
+### Non-Slice Components:
+9. **ThemeSetting Component** (Outside SliceZone, fetches own Prismic data)
+
+### Implementation Details:
+- **SliceZone**: Renders all Prismic slices dynamically
+- **ThemeSetting**: Client-side component with `useEffect` Prismic data fetching
+- **Data Flow**: Homepage → `getHomepageData()` → SliceZone + ThemeSetting
+- **Error Handling**: Graceful fallbacks for missing Prismic data
 
 ---
 
@@ -1007,29 +1208,94 @@ The homepage renders slices in this specific order:
 
 ---
 
-## 🚀 Setup Workflow
+## � Recent Changes & Updates
+
+### Theme Settings Implementation (Latest)
+- **Added**: Client-side ThemeSetting component with Prismic integration
+- **Fields**: `theme_settings_title` (Text) and `theme_settings_icon` (Image) in homepage
+- **Functionality**: Dynamic title and custom icon upload support
+- **Tech**: Direct Prismic API calls via `useEffect`, fallback to defaults
+- **Location**: Rendered outside SliceZone after all slices
+
+### TypeScript Integration
+- **Model Files**: Auto-generated TypeScript interfaces for all slices
+- **Type Safety**: Complete type coverage for Prismic data structures
+- **Interfaces**: Primary, Items, and nested Group interfaces for each slice
+
+### Architecture Updates
+- **Data Fetching**: Centralized `getHomepageData()` in `prismic-helpers.ts`
+- **Error Handling**: Graceful fallbacks for missing Prismic connections
+- **Client-Side**: ThemeSetting component uses client-side data fetching
+- **SSR**: Other components use server-side rendering with Suspense
+
+---
+
+## �🚀 Setup Workflow
+
+### For Homepage Custom Type:
+
+1. **Create Homepage Custom Type** in Prismic dashboard
+2. **Add Theme Settings fields**:
+   - `theme_settings_title` (Text field)
+   - `theme_settings_icon` (Image field with 500×500px constraint)
+3. **Add Slices field** for slice zone
+4. **Configure and publish**
 
 ### For Each Slice:
 
 1. **Create Custom Type** in Prismic dashboard
 2. **Add all fields** using exact schemas from this document
 3. **Configure field constraints** (images, select options, etc.)
-4. **Add slice to homepage** document
-5. **Populate with content**
-6. **Test in preview** mode
-7. **Publish** when ready
+4. **Pay attention to Primary vs Items** - some slices use both
+5. **Add slice to homepage** document
+6. **Populate with content**
+7. **Test in preview** mode
+8. **Publish** when ready
+
+### ThemeSetting Component Setup:
+
+1. **Ensure homepage fields exist** (`theme_settings_title`, `theme_settings_icon`)
+2. **Fill content in Prismic** homepage document
+3. **Component auto-fetches** data on client-side
+4. **Verify fallbacks work** when fields are empty
 
 ### Quick Setup Checklist
 
+- [ ] Homepage custom type created with theme settings fields
 - [ ] All slices created in Prismic with correct field names
-- [ ] Image constraints configured for optimal sizing
+- [ ] Image constraints configured for optimal sizing (500×500px for theme icon)
 - [ ] Select field options match schema exactly
 - [ ] Boolean fields have correct default values
-- [ ] All Group fields use Primary section (not Items)
-- [ ] Content populated for all required fields
+- [ ] Complex slices (About, ServiceFour) use both Primary Groups and Items
+- [ ] Theme settings content populated in homepage document
+- [ ] Content populated for all required slice fields
 - [ ] Preview tested on desktop and mobile
+- [ ] ThemeSetting component displays custom title and icon
 - [ ] Links verified and working
 - [ ] Images optimized and alt text added
-- [ ] Published to production
+- [ ] All documents published to production
+
+---
+
+## 🔧 Technical Implementation Notes
+
+### Data Flow:
+```
+Homepage → getHomepageData() → {
+  slices: [...] → SliceZone
+  theme_settings_*: {...} → Available but ThemeSetting fetches own data
+}
+```
+
+### TypeScript Coverage:
+- ✅ All slice interfaces auto-generated
+- ✅ Homepage document interface with theme settings
+- ✅ PrismicImage interface for image fields
+- ✅ Complete type safety throughout
+
+### Environment Requirements:
+- Next.js 14.2.3+
+- Prismic client libraries
+- Environment variables: `NEXT_PUBLIC_PRISMIC_ENVIRONMENT`, `PRISMIC_ACCESS_TOKEN`
 
 
