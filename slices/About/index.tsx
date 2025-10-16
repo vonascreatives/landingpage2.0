@@ -69,6 +69,10 @@ export default function About({ slice }: AboutProps) {
   const ctaButton = slice.primary?.action_buttons?.[0];
   const ctaText = ctaButton?.button_text || "Learn More";
   
+  const shapeImage = slice.primary?.shape_image?.url 
+    ? slice.primary.shape_image 
+    : { url: shape.src, alt: "Shape decoration" };
+  
   // Handle button link properly
   let ctaLink = "/about-us";
   if (ctaButton?.button_link) {
@@ -118,7 +122,13 @@ export default function About({ slice }: AboutProps) {
         <div className="row align-items-center">
           <div className="col-xl-6 col-lg-6 col-md-4">
             <div className="tp-about-3-shape text-lg-end">
-              <Image src={shape} alt="shape" style={{ height: "auto" }} />
+              <Image 
+                src={shapeImage.url} 
+                alt={shapeImage.alt || "Shape decoration"} 
+                width={400}
+                height={400}
+                style={{ height: "auto", width: "auto" }} 
+              />
             </div>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-8">

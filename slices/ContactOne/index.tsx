@@ -54,6 +54,11 @@ export default function ContactOne({ slice }: ContactOneProps) {
   const buttonTextLine2 = slice.primary?.button_text_line_2 || "In Touch";
   const backgroundColor = slice.primary?.background_color || "black";
   const showDefaultIcon = slice.primary?.show_default_icon !== false;
+  const customShapeSvg = slice.primary?.custom_shape_svg !== false;
+
+  const customIconImage = slice.primary?.custom_icon_image?.url 
+    ? slice.primary.custom_icon_image 
+    : null;
 
   const backgroundClass = {
     black: 'black-bg',
@@ -76,9 +81,21 @@ export default function ContactOne({ slice }: ContactOneProps) {
             </h4>
             <p className="tp_fade_bottom" dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, '<br />') }} />
             
-            {showDefaultIcon && (
+            {showDefaultIcon && !customIconImage && (
               <div className="tp-cta-icon">
                 <Image src={cta} alt="Contact CTA icon" />
+              </div>
+            )}
+
+            {customIconImage && (
+              <div className="tp-cta-icon">
+                <Image 
+                  src={customIconImage.url} 
+                  alt={customIconImage.alt || "Contact icon"} 
+                  width={200}
+                  height={200}
+                  style={{ width: "auto", height: "auto" }}
+                />
               </div>
             )}
             
@@ -88,7 +105,7 @@ export default function ContactOne({ slice }: ContactOneProps) {
                   {buttonTextLine1} <br /> {buttonTextLine2}
                   <RightArrow clr="#19191A" />
                 </span>
-                <ProjectShape />
+                {customShapeSvg && <ProjectShape />}
               </Link>
             </div>
           </div>

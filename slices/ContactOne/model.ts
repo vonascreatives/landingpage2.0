@@ -20,6 +20,10 @@ export interface ContactOneSliceDefaultPrimary {
   background_color?: prismic.SelectField<"black" | "dark" | "custom">;
 
   show_default_icon?: prismic.BooleanField;
+
+  custom_icon_image?: prismic.ImageField;
+
+  custom_shape_svg?: prismic.BooleanField;
 }
 
 /**

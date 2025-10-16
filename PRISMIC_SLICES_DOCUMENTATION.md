@@ -280,6 +280,16 @@ An about section with description, image, statistics, and action buttons. Featur
       }
     }
   },
+  "shape_image": {
+    "type": "Image",
+    "config": {
+      "label": "Shape Image",
+      "constraint": {
+        "width": 400,
+        "height": 400
+      }
+    }
+  },
   "action_buttons": {
     "type": "Group",
     "config": {
@@ -369,6 +379,7 @@ An about section with description, image, statistics, and action buttons. Featur
 - **Section Subheading**: "Creative Excellence"
 - **About Description**: "We are a team of passionate creators..."
 - **About Image**: Upload company image
+- **Shape Image**: Upload decorative shape (400×400px) - Falls back to default if not provided
 
 **Action Buttons Group:** (Add 1-2)
 - **Button Text**: "Learn More"
@@ -388,6 +399,7 @@ An about section with description, image, statistics, and action buttons. Featur
 
 - Rich text formatting
 - Image with lazy loading
+- **Custom shape image** with fallback to default
 - Animated statistics counters (dual sources)
 - Multiple action buttons
 - Responsive layout
@@ -395,6 +407,7 @@ An about section with description, image, statistics, and action buttons. Featur
 
 ### ⚠️ Important Notes
 - **Dual Statistics**: Statistics can be added via both Primary Groups and Items section
+- **Shape Image Fallback**: If no custom shape image is uploaded, displays default shape from `/public/assets/img/home-03/about/ab-shape-img.png`
 - **Complex Schema**: This slice has the most complex field structure
 
 ---
@@ -1105,6 +1118,23 @@ A call-to-action contact section with customizable text and links. Simple, text-
       "label": "Show Default Icon",
       "default_value": true
     }
+  },
+  "custom_icon_image": {
+    "type": "Image",
+    "config": {
+      "label": "Custom Icon Image",
+      "constraint": {
+        "width": 200,
+        "height": 200
+      }
+    }
+  },
+  "custom_shape_svg": {
+    "type": "Boolean",
+    "config": {
+      "label": "Show Button Shape SVG",
+      "default_value": true
+    }
   }
 }
 ```
@@ -1120,22 +1150,26 @@ A call-to-action contact section with customizable text and links. Simple, text-
 - **Button Text Line 2**: "Project"
 - **Background Color**: "black"
 - **Show Default Icon**: `true`
+- **Custom Icon Image**: Upload custom icon (200×200px) - Optional, overrides default icon
+- **Show Button Shape SVG**: `true` - Toggle ProjectShape SVG on button
 
 ### 🎨 Features
 
 - **Split headline for emphasis**
 - **Two-line button text**
 - **Customizable background colors**
-- **Boolean icon toggle**
-- **Static default icon** (no Prismic image mapping)
+- **Dual icon support**: Boolean toggle for default + optional custom image upload
+- **Custom icon fallback**: Falls back to default CTA image from `/public/assets/img/home-03/cta/cta-1.png`
+- **Button shape toggle**: Show/hide decorative ProjectShape SVG
 - **Responsive design**
 - **GSAP animations**
-- **Clean, minimal schema**
+- **Flexible schema**
 
 ### ⚠️ Important Notes
 
-- **No image mapping**: Uses static default icon only
-- **Text-only configuration**: All visual elements configured through text
+- **Icon Priority**: Custom icon image overrides default icon when uploaded
+- **Default Icon**: Shows when `show_default_icon` is true AND no custom icon uploaded
+- **Button Shape**: ProjectShape SVG controlled by `custom_shape_svg` boolean
 - **Split button text**: Two separate fields for multi-line button text
 - **Simple schema**: One of the simplest slice configurations
 - **TypeScript interface**: `ContactOneSliceDefaultPrimary`
