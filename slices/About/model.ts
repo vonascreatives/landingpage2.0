@@ -24,6 +24,8 @@ export interface AboutSliceDefaultPrimary {
 
   about_image?: prismic.ImageField;
 
+  shape_image?: prismic.ImageField;
+
   action_buttons?: prismic.GroupField<Simplify<AboutSliceDefaultPrimaryActionButtonsItem>>;
 
   repetable_zone?: prismic.GroupField<Simplify<AboutSliceDefaultPrimaryRepetableZoneItem>>;
