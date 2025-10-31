@@ -36,7 +36,7 @@ export interface CounterOneSliceDefaultPrimary {
  */
 export interface CounterOneSliceDefaultPrimaryCustomBackgroundImagesItem {
  
-  background_image?: prismic.ImageField;
+  background_image?: prismic.KeyTextField;
 
   image_alt_text?: prismic.KeyTextField;
 }

@@ -5,9 +5,9 @@ import * as prismic from "@prismicio/client";
  */
 export interface ProjectFourSliceDefaultItem {
 
-  project_image_1?: prismic.ImageField;
+  project_image_1?: prismic.KeyTextField;
 
-  project_image_2?: prismic.ImageField;
+  project_image_2?: prismic.KeyTextField;
 
   project_meta?: prismic.KeyTextField;
 
@@ -43,9 +43,9 @@ export interface ProjectFourSliceDefaultPrimary {
  */
 export interface ProjectFourSliceDefaultPrimaryRepetableItemsItem {
 
-  project_image_1?: prismic.ImageField;
+  project_image_1?: prismic.KeyTextField;
 
-  project_image_2?: prismic.ImageField;
+  project_image_2?: prismic.KeyTextField;
 
   project_meta?: prismic.KeyTextField;
 

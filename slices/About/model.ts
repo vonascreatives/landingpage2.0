@@ -22,9 +22,9 @@ export interface AboutSliceDefaultPrimary {
 
   about_description_field?: prismic.RichTextField;
 
-  about_image?: prismic.ImageField;
+  about_image?: prismic.KeyTextField;
 
-  shape_image?: prismic.ImageField;
+  shape_image?: prismic.KeyTextField;
 
   action_buttons?: prismic.GroupField<Simplify<AboutSliceDefaultPrimaryActionButtonsItem>>;
 

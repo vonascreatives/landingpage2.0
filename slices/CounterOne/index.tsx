@@ -47,22 +47,22 @@ function MarqueImage({ src, alt = "marque-img" }: {
 }
 
 function PrismicMarqueImage({ 
-  imageField, 
+  imageUrl, 
   alt = "marque-img" 
 }: { 
-  imageField: prismic.ImageField | null | undefined, 
+  imageUrl: string | null | undefined, 
   alt?: string 
 }) {
-  if (!imageField || !prismic.isFilled.image(imageField)) {
+  if (!imageUrl) {
     return null;
   }
 
   return (
     <Image
-      src={imageField.url}
-      alt={imageField.alt || alt}
-      width={imageField.dimensions?.width || 400}
-      height={imageField.dimensions?.height || 300}
+      src={imageUrl}
+      alt={alt}
+      width={400}
+      height={300}
       style={{ height: 'auto' }}
     />
   );
@@ -111,7 +111,7 @@ export default function CounterOne({ slice }: CounterOneProps) {
                 backgroundImages.map((imgItem: any, i: number) => (
                   <PrismicMarqueImage 
                     key={`left-1-${i}`}
-                    imageField={imgItem.background_image}
+                    imageUrl={imgItem.background_image}
                     alt={imgItem.image_alt_text || `Background image ${i + 1}`}
                   />
                 ))
@@ -126,7 +126,7 @@ export default function CounterOne({ slice }: CounterOneProps) {
                 backgroundImages.map((imgItem: any, i: number) => (
                   <PrismicMarqueImage 
                     key={`left-2-${i}`}
-                    imageField={imgItem.background_image}
+                    imageUrl={imgItem.background_image}
                     alt={imgItem.image_alt_text || `Background image ${i + 1}`}
                   />
                 ))
@@ -144,7 +144,7 @@ export default function CounterOne({ slice }: CounterOneProps) {
                 backgroundImages.map((imgItem: any, i: number) => (
                   <PrismicMarqueImage 
                     key={`right-1-${i}`}
-                    imageField={imgItem.background_image}
+                    imageUrl={imgItem.background_image}
                     alt={imgItem.image_alt_text || `Background image ${i + 1}`}
                   />
                 ))
@@ -159,7 +159,7 @@ export default function CounterOne({ slice }: CounterOneProps) {
                 backgroundImages.map((imgItem: any, i: number) => (
                   <PrismicMarqueImage 
                     key={`right-2-${i}`}
-                    imageField={imgItem.background_image}
+                    imageUrl={imgItem.background_image}
                     alt={imgItem.image_alt_text || `Background image ${i + 1}`}
                   />
                 ))

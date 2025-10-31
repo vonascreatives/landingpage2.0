@@ -169,12 +169,12 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
                 <div className="row">
                   <div className="col-xl-4 col-lg-4 col-md-6">
                     <div className="tp-project-3-thumb pro-img-1">
-                      {item.img_1 && prismic.isFilled.image(item.img_1) ? (
+                      {item.img_1 ? (
                         <Image
-                          src={item.img_1.url}
-                          alt={item.img_1.alt || "Project image"}
-                          width={item.img_1.dimensions?.width || 400}
-                          height={item.img_1.dimensions?.height || 300}
+                          src={item.img_1}
+                          alt="Project image"
+                          width={400}
+                          height={300}
                           style={{ height: "auto" }}
                         />
                       ) : (
@@ -211,12 +211,12 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-6 order-0 order-lg-0">
                     <div className="tp-project-3-thumb pro-img-2">
-                      {item.img_2 && prismic.isFilled.image(item.img_2) ? (
+                      {item.img_2 ? (
                         <Image
-                          src={item.img_2.url}
-                          alt={item.img_2.alt || "Project image"}
-                          width={item.img_2.dimensions?.width || 400}
-                          height={item.img_2.dimensions?.height || 300}
+                          src={item.img_2}
+                          alt="Project image"
+                          width={400}
+                          height={300}
                           style={{ height: "auto" }}
                         />
                       ) : (

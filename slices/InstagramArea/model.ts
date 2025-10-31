@@ -19,7 +19,7 @@ export interface InstagramAreaSliceDefaultPrimary {
 
   show_background_images?: prismic.BooleanField;
 
-  center_instagram_image?: prismic.ImageField;
+  center_instagram_image?: prismic.KeyTextField;
 
   custom_instagram_images?: prismic.GroupField<Simplify<InstagramAreaSliceDefaultPrimaryCustomInstagramImagesItem>>;
 }
@@ -29,7 +29,7 @@ export interface InstagramAreaSliceDefaultPrimary {
  */
 export interface InstagramAreaSliceDefaultPrimaryCustomInstagramImagesItem {
  
-  instagram_image?: prismic.ImageField;
+  instagram_image?: prismic.KeyTextField;
 
 }
 
