@@ -69,9 +69,8 @@ export default function About({ slice }: AboutProps) {
   const ctaButton = slice.primary?.action_buttons?.[0];
   const ctaText = ctaButton?.button_text || "Learn More";
   
-  const shapeImage = slice.primary?.shape_image?.url 
-    ? slice.primary.shape_image 
-    : { url: shape.src, alt: "Shape decoration" };
+  const shapeImageUrl = slice.primary?.shape_image || shape.src;
+  const shapeImage = { url: shapeImageUrl, alt: "Shape decoration" };
   
   // Handle button link properly
   let ctaLink = "/about-us";

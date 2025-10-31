@@ -21,7 +21,7 @@ export interface ContactOneSliceDefaultPrimary {
 
   show_default_icon?: prismic.BooleanField;
 
-  custom_icon_image?: prismic.ImageField;
+  custom_icon_image?: prismic.KeyTextField;
 
   custom_shape_svg?: prismic.BooleanField;
 }

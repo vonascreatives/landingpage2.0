@@ -19,9 +19,9 @@ const imgStyle: CSSProperties = { height: "auto" };
 export default function Gallery({ slice }: GalleryProps) {
   const imageSource = slice.primary?.repeatable_zone || slice.items || [];
   const galleryImages = imageSource
-    .filter((item: any) => prismic.isFilled.image(item.gallery_image))
+    .filter((item: any) => item.gallery_image)
     .map((item: any) => ({
-      image: item.gallery_image,
+      imageUrl: item.gallery_image,
     }));
 
   if (galleryImages.length === 0) {
@@ -85,7 +85,7 @@ export default function Gallery({ slice }: GalleryProps) {
                         style={{ marginRight: '30px', display: 'inline-block' }}
                       >
                         <img
-                          src={item.image.url || ''}
+                          src={item.imageUrl || ''}
                           style={{ 
                             width: '500px', 
                             height: '900px',

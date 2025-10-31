@@ -36,7 +36,7 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
   const instagramLink = getLinkUrl(slice.primary?.instagram_link) || "#";
   const sectionTitle = slice.primary?.section_title || "INSTAGRAM";
   const buttonText = slice.primary?.button_text || "Follow Us";
-  const centerImage = slice.primary?.center_instagram_image;
+  const centerImageUrl = slice.primary?.center_instagram_image;
   const customImages = slice.primary?.custom_instagram_images || [];
   
   const description = slice.primary?.description 
@@ -46,19 +46,19 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
     : "Become a part of our stories! Join the adventure.";
 
   const defaultImages = [
-    { id: 1, img: inst_1, isCustom: false },
-    { id: 2, img: inst_2, isCustom: false },
-    { id: 3, img: inst_3, isCustom: false },
-    { id: 4, img: inst_4, isCustom: false },
-    { id: 5, img: inst_5, isCustom: false },
-    { id: 6, img: inst_6, isCustom: false },
-    { id: 7, img: inst_7, isCustom: false },
+    { id: 1, imageUrl: inst_1, isCustom: false },
+    { id: 2, imageUrl: inst_2, isCustom: false },
+    { id: 3, imageUrl: inst_3, isCustom: false },
+    { id: 4, imageUrl: inst_4, isCustom: false },
+    { id: 5, imageUrl: inst_5, isCustom: false },
+    { id: 6, imageUrl: inst_6, isCustom: false },
+    { id: 7, imageUrl: inst_7, isCustom: false },
   ];
 
   const instagram_images = customImages.length > 0 
     ? customImages.slice(0, 7).map((item: any, index: number) => ({
         id: index + 1,
-        img: item.instagram_image,
+        imageUrl: item.instagram_image,
         isCustom: true
       }))
     : defaultImages;
@@ -71,15 +71,15 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
             key={item.id}
             className={`tp-instagram-thumb-inner-${item.id} d-none d-xl-block`}
           >
-            {item.isCustom && prismic.isFilled.image(item.img) ? (
+            {item.isCustom && item.imageUrl ? (
               <Image 
-                src={item.img.url} 
+                src={item.imageUrl} 
                 alt="inst-img"
                 width={200}
                 height={200}
               />
             ) : (
-              <Image src={item.img} alt="inst-img" />
+              <Image src={item.imageUrl} alt="inst-img" />
             )}
           </div>
         ))}
@@ -89,9 +89,9 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
           </a>
         </div>
         <div className="tp-instagram-thumb">
-          {centerImage && prismic.isFilled.image(centerImage) ? (
+          {centerImageUrl ? (
             <img 
-              src={centerImage.url} 
+              src={centerImageUrl} 
               alt="inst-img"
             />
           ) : (

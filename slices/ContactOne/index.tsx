@@ -56,9 +56,8 @@ export default function ContactOne({ slice }: ContactOneProps) {
   const showDefaultIcon = slice.primary?.show_default_icon !== false;
   const customShapeSvg = slice.primary?.custom_shape_svg !== false;
 
-  const customIconImage = slice.primary?.custom_icon_image?.url 
-    ? slice.primary.custom_icon_image 
-    : null;
+  const customIconImageUrl = slice.primary?.custom_icon_image;
+  const customIconImage = customIconImageUrl ? { url: customIconImageUrl, alt: "Contact icon" } : null;
 
   const backgroundClass = {
     black: 'black-bg',

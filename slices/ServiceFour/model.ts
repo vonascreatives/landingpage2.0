@@ -15,7 +15,7 @@ export interface ServiceFourSliceDefaultItem {
 
   service_button_text?: prismic.KeyTextField;
 
-  service_icon?: prismic.ImageField;
+  service_icon?: prismic.KeyTextField;
 }
 
 /**
@@ -55,7 +55,7 @@ export interface ServiceFourSliceDefaultPrimary {
 
   section_title?: prismic.RichTextField;
 
-  service_icon?: prismic.ImageField;
+  service_icon?: prismic.KeyTextField;
 
   section_spacing?: prismic.SelectField<"default" | "large" | "compact">;
 

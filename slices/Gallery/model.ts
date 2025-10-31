@@ -5,7 +5,7 @@ import * as prismic from "@prismicio/client";
  */
 export interface GallerySliceDefaultItem {
  
-  gallery_image: prismic.ImageField;
+  gallery_image: prismic.KeyTextField;
 
 }
 
