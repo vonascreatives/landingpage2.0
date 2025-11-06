@@ -19,7 +19,7 @@ export interface PrismicImage {
 
 export interface HomepageDocumentData extends PageDocumentData {
   theme_settings_title?: string;
-  theme_settings_icon?: PrismicImage;
+  theme_settings_icon?: string; // Changed from PrismicImage to string (URL)
 }
 
 export type PageDocument = prismic.PrismicDocumentWithUID<PageDocumentData, "page">;

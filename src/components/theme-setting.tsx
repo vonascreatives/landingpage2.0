@@ -4,21 +4,12 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import { createClient } from "../../prismicio";
 
-interface PrismicImage {
-  url: string;
-  alt?: string | null;
-  dimensions?: {
-    width: number;
-    height: number;
-  };
-}
-
 const ThemeSetting = () => {
   const { setTheme, theme } = useTheme();
   const [settingOpen, setSettingOpen] = React.useState(false);
   const [prismicData, setPrismicData] = React.useState<{
     title: string;
-    iconImage: PrismicImage | null;
+    iconImage: string | null;
   }>({
     title: "Theme Settings",
     iconImage: null
@@ -86,10 +77,10 @@ const ThemeSetting = () => {
                 onClick={handleOpenSetting}
               >
                 <span className="tp-theme-settings-gear">
-                  {prismicData.iconImage?.url ? (
-                    <Image 
-                      src={prismicData.iconImage.url} 
-                      alt={prismicData.iconImage.alt || "Settings icon"} 
+                  {prismicData.iconImage ? (
+                    <Image
+                      src={prismicData.iconImage}
+                      alt="Settings icon"
                       width={24}
                       height={24}
                       className="theme-settings-icon-img"

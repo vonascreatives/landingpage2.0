@@ -4,10 +4,22 @@
 
 This document provides comprehensive documentation for all Prismic slices used in the Next.js landing page project. Each slice is fully integrated with TypeScript and follows Prismic best practices.
 
-**Project**: Landing Page 2.0  
-**CMS**: Prismic  
-**Framework**: Next.js 14.2.3  
+**Project**: Landing Page 2.0
+**CMS**: Prismic
+**Framework**: Next.js 14.2.3
 **Language**: TypeScript
+
+### 📚 Related Documentation
+- **[schema.md](schema.md)**: TypeScript interface definitions and field type references for all slices
+- **PRISMIC_SLICES_DOCUMENTATION.md** (this file): Complete Prismic configuration guide with examples and setup instructions
+
+**Note**: All TypeScript types mentioned in this document (e.g., `KeyTextField`, `RichTextField`, `GroupField`) are defined in schema.md.
+
+### ⚠️ Important: Image Field Configuration
+**All image fields in this project use `Text` type (KeyTextField), NOT `Image` type.**
+- Images are stored as URL strings (e.g., "https://example.com/images/photo.jpg")
+- No Prismic Image field types are used in any slice
+- This approach provides flexibility for external image hosting and CDN integration
 
 ---
 
@@ -46,6 +58,11 @@ A client-side theme switcher component that allows users to toggle between light
 ### 📊 Required Homepage Fields
 
 #### Theme Settings Title
+- **Field Name**: `theme_settings_title`
+- **Type**: `KeyTextField` (Text)
+- **Description**: Title displayed in theme settings component
+- **Optional**: Yes
+
 ```json
 {
   "theme_settings_title": {
@@ -59,17 +76,18 @@ A client-side theme switcher component that allows users to toggle between light
 ```
 
 #### Theme Settings Icon
+- **Field Name**: `theme_settings_icon`
+- **Type**: `KeyTextField` (Text)
+- **Description**: Custom icon for theme settings - URL to image (500×500px recommended)
+- **Optional**: Yes
+
 ```json
 {
   "theme_settings_icon": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Theme Settings Icon",
-      "constraint": {
-        "width": 500,
-        "height": 500
-      },
-      "thumbnails": []
+      "placeholder": "Enter image URL (500x500px recommended)"
     }
   }
 }
@@ -77,7 +95,7 @@ A client-side theme switcher component that allows users to toggle between light
 
 ### 💡 Example Content
 - **Theme Settings Title**: "Vonas Settings"
-- **Theme Settings Icon**: Upload custom icon image (500×500px recommended)
+- **Theme Settings Icon**: "https://example.com/images/settings-icon.svg" (500×500px recommended)
 
 ### 🎨 Features
 - **Dynamic Content**: Title and icon pulled from Prismic
@@ -100,6 +118,15 @@ The main hero section that appears at the top of the homepage with title, subtit
 ### 📊 Schema Configuration
 
 #### Primary Fields (No Items Section)
+
+**Interface**: `HeroBannerSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `title` | `RichTextField` | Main hero title | No |
+| `subtitle` | `RichTextField` | Hero subtitle text | No |
+| `button_text` | `KeyTextField` | Call-to-action button text | No |
+| `button_link` | `LinkField` | Call-to-action button destination | No |
 
 ```json
 {
@@ -167,6 +194,13 @@ A gallery section displaying multiple images in a responsive grid layout.
 
 #### Primary Fields
 
+**Interface**: `GallerySliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `section_title` | `KeyTextField` | Title for the gallery section | Yes |
+| `repeatable_zone` | `GroupField<GallerySliceDefaultItem>` | Group of gallery images | Yes |
+
 ```json
 {
   "section_title": {
@@ -182,13 +216,10 @@ A gallery section displaying multiple images in a responsive grid layout.
       "label": "Gallery Images",
       "fields": {
         "gallery_image": {
-          "type": "Image",
+          "type": "Text",
           "config": {
             "label": "Gallery Image",
-            "constraint": {
-              "width": 800,
-              "height": 600
-            }
+            "placeholder": "Enter image URL (800x600px recommended)"
           }
         }
       }
@@ -199,16 +230,19 @@ A gallery section displaying multiple images in a responsive grid layout.
 
 #### Items Section (Repeatable)
 
+**Interface**: `GallerySliceDefaultItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `gallery_image` | `KeyTextField` | URL or reference to gallery image | No |
+
 ```json
 {
   "gallery_image": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Gallery Image",
-      "constraint": {
-        "width": 800,
-        "height": 600
-      }
+      "placeholder": "Enter image URL (800x600px recommended)"
     }
   }
 }
@@ -220,7 +254,7 @@ A gallery section displaying multiple images in a responsive grid layout.
 - **Section Title**: "Our Portfolio"
 
 **Items:** (Add multiple)
-- **Gallery Image**: Upload image (800×600px recommended)
+- **Gallery Image**: "https://example.com/images/gallery-1.jpg" (800×600px recommended)
 
 ### 🎨 Features
 
@@ -243,6 +277,35 @@ An about section with description, image, statistics, and action buttons. Featur
 ### 📊 Schema Configuration
 
 #### Primary Fields
+
+**Interface**: `AboutSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `section_heading` | `RichTextField` | Main heading for the section | Yes |
+| `section_subheading` | `RichTextField` | Subheading for the section | Yes |
+| `about_description_field` | `RichTextField` | Main description content | Yes |
+| `about_image` | `KeyTextField` | URL or reference to the main image | Yes |
+| `shape_image` | `KeyTextField` | URL or reference to decorative shape image | Yes |
+| `action_buttons` | `GroupField<ActionButtonsItem>` | Group of action buttons | Yes |
+| `repetable_zone` | `GroupField<RepetableZoneItem>` | Group of statistics items | Yes |
+
+##### Action Buttons Group Item
+**Interface**: `AboutSliceDefaultPrimaryActionButtonsItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `button_text` | `KeyTextField` | Text displayed on the button | Yes |
+| `button_link` | `LinkField` | URL or link destination for the button | Yes |
+
+##### Statistics Group Item (Primary)
+**Interface**: `AboutSliceDefaultPrimaryRepetableZoneItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `statistic_number` | `NumberField` | Numeric value for the statistic | Yes |
+| `statistic_label` | `KeyTextField` | Label describing the statistic | Yes |
+| `statistic_suffix` | `KeyTextField` | Suffix to display after the number | Yes |
 
 ```json
 {
@@ -271,23 +334,17 @@ An about section with description, image, statistics, and action buttons. Featur
     }
   },
   "about_image": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "About Image",
-      "constraint": {
-        "width": 600,
-        "height": 600
-      }
+      "placeholder": "Enter image URL (600x600px recommended)"
     }
   },
   "shape_image": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Shape Image",
-      "constraint": {
-        "width": 400,
-        "height": 400
-      }
+      "placeholder": "Enter image URL (400x400px recommended)"
     }
   },
   "action_buttons": {
@@ -346,6 +403,8 @@ An about section with description, image, statistics, and action buttons. Featur
 
 #### Items Section (Repeatable)
 
+**Note**: The About slice does not use the Items section according to schema.md. All repeatable content is managed through Primary Groups (`action_buttons` and `repetable_zone`).
+
 ```json
 {
   "stat_number": {
@@ -378,8 +437,8 @@ An about section with description, image, statistics, and action buttons. Featur
 - **Section Heading**: "About Our Agency"
 - **Section Subheading**: "Creative Excellence"
 - **About Description**: "We are a team of passionate creators..."
-- **About Image**: Upload company image
-- **Shape Image**: Upload decorative shape (400×400px) - Falls back to default if not provided
+- **About Image**: "https://example.com/images/about-us.jpg" (600×600px recommended)
+- **Shape Image**: "https://example.com/images/shape-decoration.svg" (400×400px) - Falls back to default if not provided
 
 **Action Buttons Group:** (Add 1-2)
 - **Button Text**: "Learn More"
@@ -423,6 +482,30 @@ A project showcase section displaying portfolio items with images, titles, and m
 ### 📊 Schema Configuration
 
 #### Primary Fields
+
+**Interface**: `ProjectFourSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `section_title` | `RichTextField` | Main title for projects section | Yes |
+| `show_header` | `BooleanField` | Whether to show the section header | Yes |
+| `view_all_projects_link` | `LinkField` | Link to view all projects | Yes |
+| `view_all_button_text` | `KeyTextField` | Text for view all button | Yes |
+| `style_variant` | `SelectField<"default" \| "style_2">` | Visual style variant | Yes |
+| `project_button_text` | `KeyTextField` | Default text for project buttons | Yes |
+| `repeatable_items` | `GroupField<RepetableItemsItem>` | Group of project items | Yes |
+
+##### Project Items Group
+**Interface**: `ProjectFourSliceDefaultPrimaryRepetableItemsItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `project_image_1` | `KeyTextField` | First project image URL | Yes |
+| `project_image_2` | `KeyTextField` | Second project image URL | Yes |
+| `project_meta` | `KeyTextField` | Project metadata (category, date, etc.) | Yes |
+| `project_title` | `KeyTextField` | Title of the project | Yes |
+| `project_link` | `LinkField` | Link to project details | Yes |
+| `ct_button_text` | `KeyTextField` | Call-to-action button text | Yes |
 
 ```json
 {
@@ -469,23 +552,17 @@ A project showcase section displaying portfolio items with images, titles, and m
       "label": "Project Items",
       "fields": {
         "project_image_1": {
-          "type": "Image",
+          "type": "Text",
           "config": {
             "label": "Project Image 1",
-            "constraint": {
-              "width": 800,
-              "height": 600
-            }
+            "placeholder": "Enter image URL (800x600px recommended)"
           }
         },
         "project_image_2": {
-          "type": "Image",
+          "type": "Text",
           "config": {
             "label": "Project Image 2",
-            "constraint": {
-              "width": 800,
-              "height": 600
-            }
+            "placeholder": "Enter image URL (800x600px recommended)"
           }
         },
         "project_meta": {
@@ -532,8 +609,8 @@ A project showcase section displaying portfolio items with images, titles, and m
 - **Style Variant**: "default"
 
 **Project Items Group:** (Add 3-6)
-- **Project Image 1**: Upload main project image
-- **Project Image 2**: Upload secondary project image
+- **Project Image 1**: "https://example.com/images/project-main.jpg" (800×600px recommended)
+- **Project Image 2**: "https://example.com/images/project-secondary.jpg" (800×600px recommended)
 - **Project Meta**: "Branding"
 - **Project Title**: "Creative Agency Website"
 - **Project Link**: "/portfolio/creative-agency"
@@ -561,6 +638,34 @@ An animated counter section displaying statistics with optional background image
 ### 📊 Schema Configuration
 
 #### Primary Fields
+
+**Interface**: `CounterOneSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `enable_background_images` | `BooleanField` | Whether to enable background images | Yes |
+| `section_spacing` | `SelectField<"default" \| "large" \| "compact">` | Spacing style for the section | Yes |
+| `background_style` | `SelectField<"default" \| "custom" \| "none">` | Background style option | Yes |
+| `custom_background_images` | `GroupField<CustomBackgroundImagesItem>` | Group of background images | Yes |
+| `counter_items` | `GroupField<CounterItemsItem>` | Group of counter items | Yes |
+
+##### Custom Background Images Group
+**Interface**: `CounterOneSliceDefaultPrimaryCustomBackgroundImagesItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `background_image` | `KeyTextField` | URL to background image | Yes |
+| `image_alt_text` | `KeyTextField` | Alt text for accessibility | Yes |
+
+##### Counter Items Group
+**Interface**: `CounterOneSliceDefaultPrimaryCounterItemsItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `counter_value` | `NumberField` | Final counter value | Yes |
+| `counter_label` | `KeyTextField` | Label for the counter | Yes |
+| `counter_suffix` | `KeyTextField` | Suffix to display after number | Yes |
+| `counter_min_value` | `NumberField` | Starting counter value | Yes |
 
 ```json
 {
@@ -593,13 +698,10 @@ An animated counter section displaying statistics with optional background image
       "label": "Custom Background Images",
       "fields": {
         "background_image": {
-          "type": "Image",
+          "type": "Text",
           "config": {
             "label": "Background Image",
-            "constraint": {
-              "width": 200,
-              "height": 200
-            }
+            "placeholder": "Enter image URL (200x200px recommended)"
           }
         },
         "image_alt_text": {
@@ -659,7 +761,7 @@ An animated counter section displaying statistics with optional background image
 - **Background Style**: "default"
 
 **Custom Background Images Group:** (Add 5-7 for best effect)
-- **Background Image**: Upload decorative image (200x200px)
+- **Background Image**: "https://example.com/images/bg-decoration-1.png" (200×200px recommended)
 - **Image Alt Text**: "Background decoration"
 
 **Counter Items Group:** (Add 3-4)
@@ -691,6 +793,31 @@ A services showcase section with categorized service items. Features complex sch
 
 #### Primary Fields
 
+**Interface**: `ServiceFourSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `section_subtitle` | `KeyTextField` | Subtitle for the services section | Yes |
+| `section_title` | `RichTextField` | Main title for the services section | Yes |
+| `service_icon` | `KeyTextField` | Default service icon | Yes |
+| `section_spacing` | `SelectField<"default" \| "large" \| "compact">` | Spacing style for the section | Yes |
+| `layout_style` | `SelectField<"default" \| "compact" \| "expanded">` | Layout style for services | Yes |
+| `show_icons` | `BooleanField` | Whether to show service icons | Yes |
+| `service_items` | `GroupField<ServiceItemsItem>` | Group of service items | Yes |
+
+##### Service Items Group (Primary)
+**Interface**: `ServiceFourSliceDefaultPrimaryServiceItemsItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `service_title` | `KeyTextField` | Title of the service | Yes |
+| `service_description` | `RichTextField` | Description of the service | Yes |
+| `service_link` | `LinkField` | Link to service details | Yes |
+| `service_button_text` | `KeyTextField` | Text for service button | Yes |
+| `category_1` | `KeyTextField` | First category tag | Yes |
+| `category_2` | `KeyTextField` | Second category tag | Yes |
+| `category_3` | `KeyTextField` | Third category tag | Yes |
+
 ```json
 {
   "section_subtitle": {
@@ -709,13 +836,10 @@ A services showcase section with categorized service items. Features complex sch
     }
   },
   "service_icon": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Service Icon (Global)",
-      "constraint": {
-        "width": 100,
-        "height": 100
-      }
+      "placeholder": "Enter icon URL (100x100px recommended)"
     }
   },
   "section_spacing": {
@@ -802,7 +926,25 @@ A services showcase section with categorized service items. Features complex sch
 }
 ```
 
-#### Items Section (Repeatable)
+#### Items Section (Repeatable) - Legacy Support
+
+**Interface**: `ServiceFourSliceDefaultItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `service_title` | `KeyTextField` | Title of the service | Yes |
+| `service_description` | `RichTextField` | Description of the service | Yes |
+| `service_link` | `LinkField` | Link to service details | Yes |
+| `service_categories` | `GroupField<ServiceCategoriesItem>` | Group of service categories | Yes |
+| `service_button_text` | `KeyTextField` | Text for service button | Yes |
+| `service_icon` | `KeyTextField` | Service icon | Yes |
+
+##### Service Categories Group (within Items)
+**Interface**: `ServiceFourSliceDefaultItemServiceCategoriesItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `category_name` | `KeyTextField` | Name of the category | Yes |
 
 ```json
 {
@@ -851,13 +993,10 @@ A services showcase section with categorized service items. Features complex sch
     }
   },
   "service_icon": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Service Icon",
-      "constraint": {
-        "width": 100,
-        "height": 100
-      }
+      "placeholder": "Enter icon URL (100x100px recommended)"
     }
   }
 }
@@ -923,6 +1062,28 @@ An Instagram showcase section with background images, center image, and social m
 
 #### Primary Fields (No Items Section)
 
+**Interface**: `InstagramAreaSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `instagram_username` | `KeyTextField` | Instagram username without @ | Yes |
+| `instagram_link` | `LinkField` | Link to Instagram profile | Yes |
+| `section_title` | `KeyTextField` | Title for the Instagram section | Yes |
+| `description` | `RichTextField` | Description text for the section | Yes |
+| `button_text` | `KeyTextField` | Text for follow button | Yes |
+| `section_spacing` | `SelectField<"default" \| "large" \| "compact">` | Spacing style for the section | Yes |
+| `show_background_images` | `BooleanField` | Whether to show background images | Yes |
+| `center_instagram_image` | `KeyTextField` | Center featured Instagram image | Yes |
+| `custom_instagram_images` | `GroupField<CustomInstagramImagesItem>` | Group of Instagram images | Yes |
+
+##### Custom Instagram Images Group
+**Interface**: `InstagramAreaSliceDefaultPrimaryCustomInstagramImagesItem`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `instagram_image` | `KeyTextField` | URL to Instagram image | Yes |
+| `image_alt_text` | `KeyTextField` | Alt text for accessibility | Yes |
+
 ```json
 {
   "instagram_username": {
@@ -977,13 +1138,10 @@ An Instagram showcase section with background images, center image, and social m
     }
   },
   "center_instagram_image": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Center Instagram Image",
-      "constraint": {
-        "width": 500,
-        "height": 500
-      }
+      "placeholder": "Enter image URL (500x500px recommended)"
     }
   },
   "custom_instagram_images": {
@@ -992,13 +1150,10 @@ An Instagram showcase section with background images, center image, and social m
       "label": "Custom Instagram Images",
       "fields": {
         "instagram_image": {
-          "type": "Image",
+          "type": "Text",
           "config": {
             "label": "Instagram Image",
-            "constraint": {
-              "width": 200,
-              "height": 200
-            }
+            "placeholder": "Enter image URL (200x200px recommended)"
           }
         },
         "image_alt_text": {
@@ -1024,10 +1179,10 @@ An Instagram showcase section with background images, center image, and social m
 - **Button Text**: "Follow Us"
 - **Section Spacing**: "default"
 - **Show Background Images**: `true`
-- **Center Instagram Image**: Upload main image (500x500px)
+- **Center Instagram Image**: "https://example.com/images/instagram-featured.jpg" (500×500px recommended)
 
 **Custom Instagram Images Group:** (Add 7 for full effect)
-- **Instagram Image**: Upload square image (200x200px)
+- **Instagram Image**: "https://example.com/images/instagram-post-1.jpg" (200×200px recommended)
 - **Image Alt Text**: "Behind the scenes at our studio"
 
 ### 🎨 Features
@@ -1058,6 +1213,21 @@ A call-to-action contact section with customizable text and links. Simple, text-
 ### 📊 Schema Configuration
 
 #### Primary Fields (No Items Section)
+
+**Interface**: `ContactOneSliceDefaultPrimary`
+
+| Property | Type | Description | Optional |
+|----------|------|-------------|----------|
+| `main_title` | `KeyTextField` | Main contact section title | Yes |
+| `highlighted_title` | `KeyTextField` | Highlighted portion of title | Yes |
+| `description` | `RichTextField` | Contact section description | Yes |
+| `contact_link` | `LinkField` | Contact link (email, phone, etc.) | Yes |
+| `button_text_line_1` | `KeyTextField` | First line of button text | Yes |
+| `button_text_line_2` | `KeyTextField` | Second line of button text | Yes |
+| `background_color` | `SelectField<"black" \| "dark" \| "custom">` | Background color option | Yes |
+| `show_default_icon` | `BooleanField` | Whether to show default icon | Yes |
+| `custom_icon_image` | `KeyTextField` | Custom icon image URL | Yes |
+| `custom_shape_svg` | `BooleanField` | Whether to use custom SVG shape | Yes |
 
 ```json
 {
@@ -1120,13 +1290,10 @@ A call-to-action contact section with customizable text and links. Simple, text-
     }
   },
   "custom_icon_image": {
-    "type": "Image",
+    "type": "Text",
     "config": {
       "label": "Custom Icon Image",
-      "constraint": {
-        "width": 200,
-        "height": 200
-      }
+      "placeholder": "Enter icon URL (200x200px recommended)"
     }
   },
   "custom_shape_svg": {
@@ -1150,7 +1317,7 @@ A call-to-action contact section with customizable text and links. Simple, text-
 - **Button Text Line 2**: "Project"
 - **Background Color**: "black"
 - **Show Default Icon**: `true`
-- **Custom Icon Image**: Upload custom icon (200×200px) - Optional, overrides default icon
+- **Custom Icon Image**: "https://example.com/images/custom-contact-icon.svg" (200×200px) - Optional, overrides default icon
 - **Show Button Shape SVG**: `true` - Toggle ProjectShape SVG on button
 
 ### 🎨 Features
@@ -1220,16 +1387,19 @@ The homepage renders components in this specific order:
 
 ### Field Types Reference
 
-| Field Type | Use Case | Example |
-|------------|----------|---------|
-| **Text** | Short, single-line text | Button labels, titles |
-| **StructuredText** | Rich formatted text | Descriptions, paragraphs |
-| **Image** | Image upload | Photos, graphics |
-| **Link** | URLs or internal links | Buttons, navigation |
-| **Number** | Numeric values | Statistics, counts |
-| **Boolean** | True/false toggle | Feature flags |
-| **Select** | Dropdown options | Variants, styles |
-| **Group** | Repeatable sets of fields | Multiple items |
+| Prismic Type | TypeScript Type | Use Case | Example |
+|--------------|----------------|----------|---------|
+| **Text** | `KeyTextField` | Short, single-line text | Button labels, titles, **image URLs** |
+| **StructuredText** | `RichTextField` | Rich formatted text | Descriptions, paragraphs |
+| **Link** | `LinkField` | URLs or internal links | Buttons, navigation |
+| **Number** | `NumberField` | Numeric values | Statistics, counts |
+| **Boolean** | `BooleanField` | True/false toggle | Feature flags |
+| **Select** | `SelectField<options>` | Dropdown options | Variants, styles |
+| **Group** | `GroupField<ItemType>` | Repeatable sets of fields | Multiple items |
+
+**Note**: All TypeScript interfaces referenced in this document are auto-generated from Prismic schemas. For detailed type definitions, see [schema.md](schema.md).
+
+**Important**: All image fields use `Text` type (KeyTextField) and store image URLs as strings. There are no `Image` type fields in this project.
 
 ### Prismic Limitations
 
