@@ -175,12 +175,16 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
                           alt="Project image"
                           width={400}
                           height={300}
-                          style={{ height: "auto" }}
+                          style={{
+                            width: '100%',
+                            height: '800px',
+                            objectFit: 'cover'
+                          }}
                         />
                       ) : (
-                        <div className="placeholder-image" style={{ 
-                          width: '100%', 
-                          height: '300px', 
+                        <div className="placeholder-image" style={{
+                          width: '100%',
+                          height: '800px',
                           backgroundColor: '#f0f0f0',
                           display: 'flex',
                           alignItems: 'center',
@@ -217,12 +221,16 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
                           alt="Project image"
                           width={400}
                           height={300}
-                          style={{ height: "auto" }}
+                          style={{
+                            width: '100%',
+                            height: '800px',
+                            objectFit: 'cover'
+                          }}
                         />
                       ) : (
-                        <div className="placeholder-image" style={{ 
-                          width: '100%', 
-                          height: '300px', 
+                        <div className="placeholder-image" style={{
+                          width: '100%',
+                          height: '800px',
                           backgroundColor: '#f0f0f0',
                           display: 'flex',
                           alignItems: 'center',

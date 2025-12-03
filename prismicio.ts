@@ -23,23 +23,24 @@ export type AllSlices =
   | ContactOneSlice;
 
 
-const routes: prismic.ClientConfig["routes"] = [
-  {
-    type: "page",
-    path: "/:uid",
-  },
-  {
-    type: "homepage", 
-    path: "/",
-  },
-];
+/**
+ * Link resolver function to handle all document types
+ */
+const linkResolver: prismic.LinkResolverFunction = (doc) => {
+  if (doc.type === "homepage") {
+    return "/";
+  }
+  if (doc.type === "page") {
+    return `/${doc.uid}`;
+  }
+  return "/";
+};
 
 /**
  * Creates a Prismic client for the current repository.
  */
 export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
   const client = prismic.createClient(repositoryName, {
-    routes,
     accessToken: process.env.PRISMIC_ACCESS_TOKEN,
     ...config,
   });
