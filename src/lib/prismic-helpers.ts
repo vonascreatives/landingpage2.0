@@ -29,8 +29,14 @@ export type HomepageDocument = prismic.PrismicDocumentWithoutUID<HomepageDocumen
  * Fetches homepage data with slices from Prismic
  */
 export async function getHomepageData(): Promise<HomepageDocument | null> {
-  const client = createClient();
-  
+  // Create client without routes to avoid link resolution errors
+  const client = prismic.createClient(
+    process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "airtable-pages",
+    {
+      accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+    }
+  );
+
   try {
     const homepage = await client.getSingle("homepage");
     return homepage as HomepageDocument;
@@ -44,8 +50,14 @@ export async function getHomepageData(): Promise<HomepageDocument | null> {
  * Fetches page data by UID with slices from Prismic
  */
 export async function getPageData(uid: string): Promise<PageDocument | null> {
-  const client = createClient();
-  
+  // Create client without routes to avoid link resolution errors
+  const client = prismic.createClient(
+    process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "airtable-pages",
+    {
+      accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+    }
+  );
+
   try {
     const page = await client.getByUID("page", uid);
     return page as PageDocument;
@@ -86,15 +98,53 @@ export async function getPageDataOrNotFound(uid: string): Promise<PageDocument> 
 }
 
 
+/**
+ * Fetches ALL published brand/page documents from Prismic
+ * This allows displaying multiple brand pages as a list
+ * NOTE: All brand pages are actually type "homepage" with different UIDs
+ */
+export async function getAllPublishedPages(): Promise<any[]> {
+  // Create client without routes to avoid link resolution errors
+  const client = prismic.createClient(
+    process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "airtable-pages",
+    {
+      accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+    }
+  );
+
+  try {
+    // Fetch all documents
+    const response = await client.get();
+
+    // Filter to only include homepage documents that have UIDs (brand pages)
+    // All brand pages are type "homepage" with UIDs
+    const brandPages = response.results.filter((doc: any) =>
+      doc.type === "homepage" && doc.uid
+    );
+
+    // Sort by last publication date
+    brandPages.sort((a: any, b: any) => {
+      const dateA = new Date(a.last_publication_date).getTime();
+      const dateB = new Date(b.last_publication_date).getTime();
+      return dateB - dateA;
+    });
+
+    return brandPages;
+  } catch (error) {
+    console.warn("Could not fetch published pages:", error);
+    return [];
+  }
+}
+
 export async function getHeroBannerData() {
   const homepage = await getHomepageData();
-  
+
   if (!homepage?.data.slices) return null;
-  
+
   // Find the hero banner slice
   const heroBannerSlice = homepage.data.slices.find(
     slice => slice.slice_type === "hero_section"
   );
-  
+
   return heroBannerSlice?.primary || null;
 }
