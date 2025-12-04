@@ -141,10 +141,10 @@ export default function HomepageClient({ homepageData, allPages = [] }: Homepage
               </>
             )}
 
-            {/* Brand Pages List - Show all published brand pages */}
-            {allPages && allPages.length > 0 && (
+            {/* Brand Pages List - Removed as requested */}
+            {/* {allPages && allPages.length > 0 && (
               <BrandListSection pages={allPages} />
-            )}
+            )} */}
 
             {/* Static fallbacks if no Prismic slices configured */}
             {(!homepageData?.data?.slices ||
