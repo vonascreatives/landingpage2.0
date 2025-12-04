@@ -38,10 +38,18 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
   const buttonText = slice.primary?.button_text || "Follow Us";
   const centerImageUrl = slice.primary?.center_instagram_image;
   const customImages = slice.primary?.custom_instagram_images || [];
-  
-  const description = slice.primary?.description 
-    ? (typeof slice.primary.description === 'string' 
-        ? slice.primary.description 
+
+  // Check if center media is a video (checks file extension)
+  const isVideo = centerImageUrl && (
+    centerImageUrl.toLowerCase().endsWith('.mp4') ||
+    centerImageUrl.toLowerCase().endsWith('.webm') ||
+    centerImageUrl.toLowerCase().endsWith('.mov') ||
+    centerImageUrl.toLowerCase().endsWith('.avi')
+  );
+
+  const description = slice.primary?.description
+    ? (typeof slice.primary.description === 'string'
+        ? slice.primary.description
         : prismic.asText(slice.primary.description))
     : "Become a part of our stories! Join the adventure.";
 
@@ -55,68 +63,96 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
     { id: 7, imageUrl: inst_7, isCustom: false },
   ];
 
-  const instagram_images = customImages.length > 0 
-    ? customImages.slice(0, 7).map((item: any, index: number) => ({
-        id: index + 1,
-        imageUrl: item.instagram_image,
-        isCustom: true
-      }))
+  const instagram_images = customImages.length > 0
+    ? customImages
+        .filter((item: any) => item.instagram_image) // Filter out items without images
+        .slice(0, 7)
+        .map((item: any, index: number) => ({
+          id: index + 1,
+          imageUrl: item.instagram_image,
+          isCustom: true
+        }))
     : defaultImages;
 
   return (
-    <div className="tp-instagram-area tp-instagram-ptb text-center">
-      <div className="tp-instagram-thumb-wrap p-relative">
-        {instagram_images.map((item) => (
-          <div
-            key={item.id}
-            className={`tp-instagram-thumb-inner-${item.id} d-none d-xl-block`}
-          >
-            {item.isCustom && item.imageUrl ? (
-              <Image 
-                src={item.imageUrl} 
-                alt="inst-img"
-                width={200}
-                height={200}
-              />
+    <>
+      <div className="tp-instagram-area tp-instagram-ptb text-center">
+        <div className="tp-instagram-thumb-wrap p-relative">
+          {instagram_images.map((item) => (
+            <div
+              key={item.id}
+              className={`tp-instagram-thumb-inner-${item.id} d-none d-xl-block`}
+            >
+              {item.isCustom && item.imageUrl ? (
+                <img
+                  src={item.imageUrl}
+                  alt="inst-img"
+                  style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                />
+              ) : item.imageUrl ? (
+                <Image src={item.imageUrl} alt="inst-img" />
+              ) : null}
+            </div>
+          ))}
+          <div className="tp-instagram-thumb-inner-8 d-none d-xl-block">
+            <a href={instagramLink}>
+              <i className="fa-brands fa-instagram"></i>
+            </a>
+          </div>
+          <div className="tp-instagram-thumb">
+            {centerImageUrl ? (
+              isVideo ? (
+                <video
+                  src={centerImageUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls
+                  className="instagram-center-video"
+                />
+              ) : (
+                <img
+                  src={centerImageUrl}
+                  alt="inst-img"
+                />
+              )
             ) : (
-              <Image src={item.imageUrl} alt="inst-img" />
+              <img src="/assets/img/home-02/instagram/insta-1.jpg" alt="inst-img"/>
             )}
           </div>
-        ))}
-        <div className="tp-instagram-thumb-inner-8 d-none d-xl-block">
-          <a href={instagramLink}>
-            <i className="fa-brands fa-instagram"></i>
-          </a>
-        </div>
-        <div className="tp-instagram-thumb">
-          {centerImageUrl ? (
-            <img 
-              src={centerImageUrl} 
-              alt="inst-img"
-            />
-          ) : (
-            <img src="/assets/img/home-02/instagram/insta-1.jpg" alt="inst-img"/>
-          )}
-        </div>
-        
-        <div className="tp-instagram-content-wrap text-start">
-          <div className="tp-instagram-title-box">
-            <span className="tp-instagram-subtitle">{sectionTitle}</span>
-            <h4 className="tp-instagram-title">{instagramUsername}</h4>
-          </div>
-          <div className="tp-instagram-content">
-            <p>
-              {description}
-            </p>
-            <a className="tp-btn-white background-black" href={instagramLink}>
-              {buttonText}
-              <span>
-                <Leaf />
-              </span>
-            </a>
+
+          <div className="tp-instagram-content-wrap text-start">
+            <div className="tp-instagram-title-box">
+              <span className="tp-instagram-subtitle">{sectionTitle}</span>
+              <h4 className="tp-instagram-title">{instagramUsername}</h4>
+            </div>
+            <div className="tp-instagram-content">
+              <p>
+                {description}
+              </p>
+              <a className="tp-btn-white background-black" href={instagramLink}>
+                {buttonText}
+                <span>
+                  <Leaf />
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <style jsx>{`
+        .instagram-center-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          background-position: center;
+          background-size: cover;
+          margin: 0 auto;
+          display: block;
+        }
+      `}</style>
+    </>
   );
 }

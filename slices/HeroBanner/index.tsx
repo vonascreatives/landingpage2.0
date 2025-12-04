@@ -145,6 +145,7 @@ export default function HeroBanner({ slice }: HeroBannerProps) {
         .hero-title-responsive {
           max-width: 100%;
           word-break: normal !important;
+          padding: 0 15px;
         }
 
         .tp-reveal-line {
@@ -154,10 +155,31 @@ export default function HeroBanner({ slice }: HeroBannerProps) {
           overflow-wrap: normal;
         }
 
-        /* Ensure proper spacing between lines */
+        /* Mobile responsive adjustments */
+        @media (max-width: 991px) {
+          .hero-title-responsive {
+            padding: 0 20px;
+          }
+        }
+
         @media (max-width: 767px) {
+          .hero-title-responsive {
+            padding: 0 15px;
+          }
+
           .tp-reveal-line {
             margin-bottom: 0;
+            line-height: 1.1;
+          }
+        }
+
+        @media (max-width: 575px) {
+          .hero-title-responsive {
+            padding: 0 10px;
+          }
+
+          .tp-reveal-line {
+            font-size: 0.9em;
           }
         }
       `}</style>

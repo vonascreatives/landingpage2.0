@@ -51,7 +51,7 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
   const sectionTitle = getRichTextContent(slice.primary?.section_title) || "Latest Projects";
   const showHeader = slice.primary?.show_header !== false; 
   const viewAllLink = getLinkUrl(slice.primary?.view_all_projects_link) || "/portfolio-wrapper";
-  const viewAllButtonText = slice.primary?.view_all_button_text || "See All Project";
+  const viewAllButtonText = slice.primary?.view_all_button_text || "Learn More";
   const isStyle2 = slice.primary?.style_variant === "style_2";
 
   const defaultProjects = [
@@ -96,7 +96,7 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
           meta: item.project_meta || defaultProjects[index]?.meta || "Creative",
           title: item.project_title || defaultProjects[index]?.title || "Project Title",
           link: getLinkUrl(item.project_link) || defaultProjects[index]?.link || "/portfolio-details-1",
-          buttonText: item.project_button_text || "See Project"
+          buttonText: item.project_button_text || "Learn More"
         };
         
         return mappedItem;
@@ -108,7 +108,7 @@ export default function ProjectFour({ slice }: ProjectFourProps) {
         meta: project.meta,
         title: project.title,
         link: project.link,
-        buttonText: "See Project"
+        buttonText: "Learn More"
       }));
       
   return (

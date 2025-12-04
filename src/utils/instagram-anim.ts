@@ -20,7 +20,7 @@ function instagramAnim() {
 					
 				}
 			});
-			tp_instagram_3.to(".tp-instagram-thumb img", {
+			tp_instagram_3.to(".tp-instagram-thumb img, .tp-instagram-thumb video", {
 				width: "580px",
 				height: "580px",
 				borderRadius: "10px",
