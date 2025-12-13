@@ -11,12 +11,35 @@ export default function BrandPage({ pageData }: BrandPageProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Return empty paths and use fallback: "blocking" for on-demand generation
-  // This allows any UID to be tried without pre-generating all paths
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
+  // Fetch all published pages to pre-generate them at build time
+  const client = prismic.createClient(
+    process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || "airtable-pages",
+    {
+      accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+    }
+  );
+
+  try {
+    const response = await client.getAllByType("homepage");
+
+    // Generate paths for all pages with UIDs
+    const paths = response
+      .filter((doc) => doc.uid)
+      .map((doc) => ({
+        params: { uid: doc.uid as string },
+      }));
+
+    return {
+      paths,
+      fallback: "blocking", // Still use blocking fallback for newly created pages
+    };
+  } catch (error) {
+    console.error("Error fetching paths:", error);
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
