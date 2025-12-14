@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Cart, MenuThree } from "@/components/svg";
 import HeaderMenus from "./header-menus";
 import useSticky from "@/hooks/use-sticky";
-import logo from "@/assets/img/logo/logo.png";
-import logo_2 from "@/assets/img/logo/logo-white.png";
+import logo from "@/assets/img/logo/FRMWRKD_LOGO.png";
+import logo_2 from "@/assets/img/logo/FRMWRKD_LOGO.png";
 import CartOffcanvas from "@/components/offcanvas/cart-offcanvas";
 import MobileOffcanvas from "@/components/offcanvas/mobile-offcanvas";
 
@@ -42,18 +42,18 @@ export default function HeaderEleven({transparent=false,cls=''}: IProps) {
                   </Link>
                 </div>
               </div>
-              <div className="col-xl-8 col-lg-8 d-none d-xl-block">
+              {/* <div className="col-xl-8 col-lg-8 d-none d-xl-block">
                 <div className="tp-inner-header-right-wrap text-center">
                   <div className="tp-inner-header-menu header-main-menu">
                     <nav className="tp-main-menu-content">
-                      {/* header menus */}
+                 
                       <HeaderMenus />
-                      {/* header menus */}
+                  
                     </nav>
                   </div>
                 </div>
-              </div>
-              <div className="col-xl-2 col-lg-6 col-md-6 col-6">
+              </div> */}
+              {/* <div className="col-xl-2 col-lg-6 col-md-6 col-6">
                 <div className="tp-inner-header-right-action text-end">
                   <ul>
                     <li>
@@ -79,18 +79,18 @@ export default function HeaderEleven({transparent=false,cls=''}: IProps) {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </header>
 
       {/* cart mini */}
-      <CartOffcanvas openCartMini={openCartMini} setOpenCartMini={setOpenCartMini} />
+      {/* <CartOffcanvas openCartMini={openCartMini} setOpenCartMini={setOpenCartMini} /> */}
       {/* cart mini */}
 
       {/* off canvas */}
-      <MobileOffcanvas openOffcanvas={openOffCanvas} setOpenOffcanvas={setOpenOffCanvas} />
+      {/* <MobileOffcanvas openOffcanvas={openOffCanvas} setOpenOffcanvas={setOpenOffCanvas} /> */}
       {/* off canvas */}
     </>
   );
