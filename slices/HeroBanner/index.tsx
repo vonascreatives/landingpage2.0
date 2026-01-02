@@ -19,11 +19,11 @@ const renderRichText = (field: prismic.RichTextField) => {
 const getLinkUrl = (field: prismic.LinkField) => {
   // Cast to any to access all possible properties
   const fieldAsAny = field as any;
-  
+
   if (!field || (!prismic.isFilled.link(field) && !fieldAsAny.text)) {
     return "/contact";
   }
-  
+
   if (field.link_type === "Web") {
     return field.url || "/contact";
   }
@@ -33,21 +33,57 @@ const getLinkUrl = (field: prismic.LinkField) => {
   if (field.link_type === "Media") {
     return field.url || "/contact";
   }
-  
+
   if (fieldAsAny.link_type === "Any" && fieldAsAny.text) {
     return fieldAsAny.text;
   }
-  
+
   if (fieldAsAny.text) {
     return fieldAsAny.text;
   }
-  
+
   return "/contact";
+};
+
+// Helper function to clean title by removing URL-related parts
+const cleanTitle = (text: string): string => {
+  if (!text) return text;
+
+  let cleaned = text;
+
+  // Remove protocol (http://, https://)
+  cleaned = cleaned.replace(/https?:\/\//gi, '');
+
+  // Remove www. prefix
+  cleaned = cleaned.replace(/\bwww\./gi, '');
+
+  // Remove common TLDs (.com, .net, .org, .io, etc.)
+  cleaned = cleaned.replace(/\.(com|net|org|io|co|edu|gov|mil|int|biz|info|name|museum|coop|aero|xxx|idv|sg|my|ph|id|th|vn|hk|tw|jp|kr|cn|au|nz|uk|us|ca|de|fr|it|es|nl|be|ch|at|se|no|dk|fi|pl|ru|br|mx|ar|cl|pe|ve|za)\b/gi, '');
+
+  // Remove trailing slashes and dots
+  cleaned = cleaned.replace(/[\/\.]+$/g, '');
+
+  // Remove leading slashes and dots
+  cleaned = cleaned.replace(/^[\/\.]+/g, '');
+
+  // Clean up multiple spaces
+  cleaned = cleaned.replace(/\s+/g, ' ');
+
+  // Trim whitespace
+  cleaned = cleaned.trim();
+
+  // Capitalize first letter of each word for better presentation
+  cleaned = cleaned.split(' ').map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(' ');
+
+  return cleaned;
 };
 
 export default function HeroBanner({ slice }: HeroBannerProps) {
   // Extract content with fallbacks
-  const title = slice.primary.title ? renderRichText(slice.primary.title) : "Transform Your Workflow with AI-Powered Airtable Templates";
+  const rawTitle = slice.primary.title ? renderRichText(slice.primary.title) : "Transform Your Workflow with AI-Powered Airtable Templates";
+  const title = cleanTitle(rawTitle); // Clean the title to remove URL parts
   const subtitle = slice.primary.subtitle ? renderRichText(slice.primary.subtitle) : "Beautiful AI Images for Social Media & Webshops";
   const buttonText = slice.primary.button_text || "Get Your Template";
   const buttonUrl = slice.primary.button_link ? getLinkUrl(slice.primary.button_link) : "/contact";

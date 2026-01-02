@@ -19,7 +19,7 @@ export interface InstagramAreaProps {
 
 function getLinkUrl(link: any): string {
   if (!link) return '#';
-  
+
   if (prismic.isFilled.link(link)) {
     if (link.link_type === 'Web') {
       return (link as any).url || '#';
@@ -27,7 +27,7 @@ function getLinkUrl(link: any): string {
       return `/${(link as any).uid}` || '#';
     }
   }
-  
+
   return '#';
 }
 
@@ -49,8 +49,8 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
 
   const description = slice.primary?.description
     ? (typeof slice.primary.description === 'string'
-        ? slice.primary.description
-        : prismic.asText(slice.primary.description))
+      ? slice.primary.description
+      : prismic.asText(slice.primary.description))
     : "Become a part of our stories! Join the adventure.";
 
   const defaultImages = [
@@ -65,13 +65,13 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
 
   const instagram_images = customImages.length > 0
     ? customImages
-        .filter((item: any) => item.instagram_image) // Filter out items without images
-        .slice(0, 7)
-        .map((item: any, index: number) => ({
-          id: index + 1,
-          imageUrl: item.instagram_image,
-          isCustom: true
-        }))
+      .filter((item: any) => item.instagram_image) // Filter out items without images
+      .slice(0, 7)
+      .map((item: any, index: number) => ({
+        id: index + 1,
+        imageUrl: item.instagram_image,
+        isCustom: true
+      }))
     : defaultImages;
 
   return (
@@ -118,7 +118,7 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
                 />
               )
             ) : (
-              <img src="/assets/img/home-02/instagram/insta-1.jpg" alt="inst-img"/>
+              <img src="/assets/img/home-02/instagram/insta-1.jpg" alt="inst-img" />
             )}
           </div>
 
@@ -145,10 +145,9 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
       <style jsx>{`
         .instagram-center-video {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
-          background-position: center;
-          background-size: cover;
+          aspect-ratio: 16 / 9;
+          object-fit: contain;
+          background-color: #000;
           margin: 0 auto;
           display: block;
         }

@@ -1,5 +1,12 @@
 # Prismic Deployment Guide - Fixing 404s for New Pages
 
+<<<<<<< Updated upstream
+=======
+# Revalidation Commands 
+curl "https://landingpage2-0.vercel.app/api/revalidate?secret=bPR8ZGjmmIXU5qI5Gwg2qRREJZEub3JQ9aJGo0CDj88=&uid=NEW_PAGE_UID_HERE"
+
+
+>>>>>>> Stashed changes
 ## Problem
 Newly created Prismic pages work locally but return 404 on Vercel deployment.
 
