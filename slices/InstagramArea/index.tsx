@@ -87,10 +87,11 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
                 <img
                   src={item.imageUrl}
                   alt="inst-img"
-                  style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                  className="instagram-surrounding-image"
+                  style={{ width: '180px', height: '320px', objectFit: 'cover', borderRadius: '10px' }}
                 />
               ) : item.imageUrl ? (
-                <Image src={item.imageUrl} alt="inst-img" />
+                <Image src={item.imageUrl} alt="inst-img" className="instagram-surrounding-image" />
               ) : null}
             </div>
           ))}
@@ -145,11 +146,54 @@ export default function InstagramArea({ slice }: InstagramAreaProps) {
       <style jsx>{`
         .instagram-center-video {
           width: 100%;
-          aspect-ratio: 16 / 9;
-          object-fit: contain;
-          background-color: #000;
+          height: 100%;
+          object-fit: cover;
           margin: 0 auto;
           display: block;
+          transform: scale(1.5);
+          transform-origin: center;
+        }
+
+        .instagram-surrounding-image {
+          width: 180px !important;
+          height: 320px !important;
+          object-fit: cover !important;
+          border-radius: 10px !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1400px) {
+          .instagram-center-video {
+            transform: scale(1.6);
+          }
+          
+          .instagram-surrounding-image {
+            width: 160px !important;
+            height: 285px !important;
+          }
+        }
+
+        @media (max-width: 1200px) {
+          .instagram-center-video {
+            transform: scale(1.4);
+          }
+          
+          .instagram-surrounding-image {
+            width: 140px !important;
+            height: 250px !important;
+          }
+        }
+
+        @media (max-width: 991px) {
+          .instagram-center-video {
+            transform: scale(1.2);
+          }
+        }
+
+        @media (max-width: 767px) {
+          .instagram-center-video {
+            transform: scale(1);
+          }
         }
       `}</style>
     </>
